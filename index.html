@@ -2622,77 +2622,77 @@
             document.body.style.overflow = 'auto'; // Restore scrolling
         }
 
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Simple validation (in real app, this would be server-side)
-            if (email && password) {
-                // Show loading state
-                const submitBtn = event.target.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '🔄 Signing In...';
-                submitBtn.disabled = true;
-                
-                // Simulate login process
-                setTimeout(() => {
-                    // Store login state
-                    localStorage.setItem('saffronNaturalsLoggedIn', 'true');
-                    localStorage.setItem('saffronNaturalsUser', JSON.stringify({
-                        email: email,
-                        name: email.split('@')[0],
-                        loginTime: new Date().toISOString()
-                    }));
-                    
-                    // Show success message
-                    alert('🎉 LOGIN SUCCESSFUL!\n\nWelcome to your Trust Engine Dashboard!\n\n✅ Access granted to:\n• Live farm monitoring\n• Real-time logistics tracking\n• Business intelligence platform\n• Blockchain transparency ledger\n• Partnership ecosystem\n\nRedirecting to your personalized dashboard...');
-                    
-                    // Close modal and redirect
-                    closeLoginModal();
-                    
-                    // In a real app, this would redirect to dashboard.html
-                    // For now, we'll show the logged-in state
-                    updateLoginState();
-                    
-                    // Reset form
-                    event.target.reset();
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                    
-                }, 2000);
-            }
+        
+function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '🔄 Signing In...';
+    submitBtn.disabled = true;
+
+    // Initialize Supabase client (make sure keys are set)
+    const SUPABASE_URL = "https://nylqihwnftbmkxuysgko.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55bHFpaHduZnRibWt4dXlzZ2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4NzY4MjAsImV4cCI6MjA3MTQ1MjgyMH0.s6YLFNTUJowCdQnxMwdwpvoC-4PNx80DnVG2Tw0Yk_c";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    sb.auth.signInWithPassword({ email, password }).then(({ data, error }) => {
+        if (error) {
+            alert('Login failed: ' + error.message);
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            return;
         }
+        // Redirect to admin page
+        window.location.href = 'Admin_login.html';
+    }).catch((err) => {
+        alert('Login error: ' + err.message);
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+}
 
         function showSignupForm() {
             alert('🚀 REQUEST ACCESS TO SAFFRON NATURALS\n\nTo access our Trust Engine platform, please contact:\n\n📧 Email: access@saffronnaturals.com\n📱 WhatsApp: +91-9372383903\n\nInclude in your request:\n• Company name and role\n• Intended use of platform\n• Business requirements\n\nOur team will review and provide credentials within 24 hours.\n\nExisting partners can use their provided credentials to login.');
         }
 
-        function updateLoginState() {
-            const isLoggedIn = localStorage.getItem('saffronNaturalsLoggedIn') === 'true';
-            const loginButton = document.querySelector('button[onclick="openLoginModal()"]');
-            
-            if (isLoggedIn && loginButton) {
-                const user = JSON.parse(localStorage.getItem('saffronNaturalsUser'));
-                loginButton.innerHTML = `
-                    <span>👤</span>
-                    <span>${user.name}</span>
-                    <span onclick="logout()" class="ml-2 text-xs opacity-75 hover:opacity-100">Logout</span>
-                `;
-                loginButton.onclick = () => {
-                    alert('🎛️ DASHBOARD ACCESS\n\nYour personalized dashboard includes:\n\n📊 Business Intelligence\n🚢 Live Logistics Tracking\n🌱 Farm Monitoring\n🔗 Blockchain Ledger\n🤝 Partnership Tools\n🎓 Academy Access\n\nFull dashboard will be available in the next update!');
-                };
-            }
+        
+async function updateLoginState() {
+    const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR-ANON-KEY";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const { data: { session } } = await sb.auth.getSession();
+    const loginButton = document.querySelector('button[onclick="openLoginModal()"]');
+    if (session && loginButton) {
+        const user = session.user;
+        loginButton.innerHTML = `
+            <span>👤</span>
+            <span>${user.email.split('@')[0]}</span>
+            <span onclick="logout(event)" class="ml-2 text-xs opacity-75 hover:opacity-100">Logout</span>
+        `;
+        loginButton.onclick = () => {
+            window.location.href = 'Admin_login.html';
+        };
+    }
+}
         }
 
-        function logout() {
-            event.stopPropagation();
-            localStorage.removeItem('saffronNaturalsLoggedIn');
-            localStorage.removeItem('saffronNaturalsUser');
-            location.reload();
-        }
-
+        
+async function logout(event) {
+    if (event && event.stopPropagation) event.stopPropagation();
+    const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR-ANON-KEY";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    try {
+        await sb.auth.signOut();
+    } catch (e) {
+        console.warn('Signout issue', e);
+    }
+    location.reload();
+}
         // Check login state on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateLoginState();
@@ -3120,30 +3120,6 @@
         // Update metrics every 5 seconds to simulate live data
         setInterval(updateLiveMetrics, 5000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97326b6d814b3bb0',t:'MTc1NTg2NjIyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
- <script src="https://unpkg.com/@supabase/supabase-js"></script>
-<script>
-  const SUPABASE_URL = "https://nylqihwnftbmkxuysgko.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55bHFpaHduZnRibWt4dXlzZ2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4NzY4MjAsImV4cCI6MjA3MTQ1MjgyMH0.s6YLFNTUJowCdQnxMwdwpvoC-4PNx80DnVG2Tw0Yk_c";
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      alert("Login failed: " + error.message);
-    } else {
-      // Redirect immediately (Supabase already stores the session internally)
-      window.location.href = "Admin_login.html";
-    }
-  });
-</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97326b6d814b3bb0',t:'MTc1NTg2NjIyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script src="https://unpkg.com/@supabase/supabase-js"></script>
 </body>
 </html>
