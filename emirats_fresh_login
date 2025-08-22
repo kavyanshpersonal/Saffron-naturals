@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal - Saffron Naturals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        saffron: '#F4A460',
+                        gold: '#FFD700'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .live-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .sidebar {
+            transition: transform 0.3s ease;
+        }
+        .content-area {
+            transition: margin-left 0.3s ease;
+        }
+        .dashboard-section {
+            display: none;
+        }
+        .dashboard-section.active {
+            display: block;
+        }
+        .nav-item.active {
+            background-color: #3B82F6;
+            color: white;
+        }
+        .chart-container {
+            height: 300px;
+            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .blockchain-block {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .blockchain-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        .farm-sensor {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-radius: 12px;
+            padding: 15px;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        .tracking-timeline {
+            position: relative;
+        }
+        .tracking-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+        .tracking-step {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 30px;
+        }
+        .tracking-step::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10b981;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #10b981;
+        }
+        .tracking-step.pending::before {
+            background: #6b7280;
+            box-shadow: 0 0 0 3px #6b7280;
+        }
+        .academy-course {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            margin: 10px 0;
+        }
+        .partnership-metric {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            border-radius: 12px;
+            padding: 15px;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-lg fixed w-full top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <button onclick="toggleSidebar()" class="lg:hidden text-gray-600 hover:text-gray-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <div class="w-12 h-12 bg-gradient-to-r from-saffron to-gold rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">SN</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Client Portal</h1>
+                        <p class="text-sm text-gray-600">Emirates Fresh Markets</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-full live-dot"></div>
+                        <span class="text-sm font-semibold text-green-600">CONNECTED</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                            <span class="text-white text-sm font-bold">A</span>
+                        </div>
+                        <span class="text-sm font-semibold">Ahmed Al Rashid</span>
+                    </div>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed left-0 top-16 h-full w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 z-30">
+        <nav class="p-4">
+            <ul class="space-y-2">
+                <li>
+                    <button onclick="showDashboardSection('overview')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors active">
+                        📊 Business Dashboard
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDashboardSection('intelligence')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors">
+                        🧠 Business Intelligence
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDashboardSection('logistics')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors">
+                        🚚 Live Logistics Tracking
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDashboardSection('farm')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors">
+                        🌱 Farm Monitoring
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDashboardSection('blockchain')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors">
+                        ⛓️ Blockchain Ledger
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDashboardSection('partnership')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors">
+                        🤝 Partnership Tools
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDashboardSection('academy')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors">
+                        🎓 Academy Access
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDashboardSection('orders')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors">
+                        📦 Order History
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDashboardSection('profile')" class="nav-item w-full text-left px-4 py-3 rounded-lg hover:bg-blue-50 hover:text-blue-600 font-semibold transition-colors">
+                        👤 Account Profile
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="mainContent" class="content-area lg:ml-64 pt-16 min-h-screen p-6">
+        
+        <!-- BUSINESS DASHBOARD OVERVIEW -->
+        <div id="overviewSection" class="dashboard-section active">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">📊 Business Dashboard</h2>
+                <div class="text-sm text-gray-600">Last updated: <span class="font-semibold">2 minutes ago</span></div>
+            </div>
+
+            <!-- Key Business Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-xl card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100 text-sm">Total Orders</p>
+                            <p class="text-3xl font-bold">47</p>
+                            <p class="text-blue-200 text-sm">This Year</p>
+                        </div>
+                        <div class="text-4xl opacity-80">📦</div>
+                    </div>
+                    <div class="mt-4 text-sm">
+                        <span class="text-green-300">↗️ +15.2%</span>
+                        <span class="text-blue-200 ml-2">vs last year</span>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-xl card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-green-100 text-sm">Total Spent</p>
+                            <p class="text-3xl font-bold">₹18.5L</p>
+                            <p class="text-green-200 text-sm">This Year</p>
+                        </div>
+                        <div class="text-4xl opacity-80">💰</div>
+                    </div>
+                    <div class="mt-4 text-sm">
+                        <span class="text-green-300">↗️ +28.7%</span>
+                        <span class="text-green-200 ml-2">vs last year</span>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-xl card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-purple-100 text-sm">Active Shipments</p>
+                            <p class="text-3xl font-bold">3</p>
+                            <p class="text-purple-200 text-sm">In Transit</p>
+                        </div>
+                        <div class="text-4xl opacity-80">🚢</div>
+                    </div>
+                    <div class="mt-4 text-sm">
+                        <span class="text-yellow-300">📍 Live Tracking</span>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-xl card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-orange-100 text-sm">Quality Score</p>
+                            <p class="text-3xl font-bold">98.5%</p>
+                            <p class="text-orange-200 text-sm">Average</p>
+                        </div>
+                        <div class="text-4xl opacity-80">⭐</div>
+                    </div>
+                    <div class="mt-4 text-sm">
+                        <span class="text-green-300">✅ Excellent</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Access Cards -->
+            <div class="grid lg:grid-cols-3 gap-8 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🚚 Recent Shipments</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                            <div>
+                                <div class="font-semibold">#SF-1250</div>
+                                <div class="text-sm text-gray-600">Pomegranates - 500kg</div>
+                            </div>
+                            <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Delivered</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                            <div>
+                                <div class="font-semibold">#SF-1248</div>
+                                <div class="text-sm text-gray-600">Saffron - 2kg</div>
+                            </div>
+                            <span class="bg-blue-500 text-white px-2 py-1 rounded text-xs">In Transit</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
+                            <div>
+                                <div class="font-semibold">#SF-1246</div>
+                                <div class="text-sm text-gray-600">Almonds - 200kg</div>
+                            </div>
+                            <span class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Processing</span>
+                        </div>
+                    </div>
+                    <button onclick="showDashboardSection('logistics')" class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-semibold transition-colors">
+                        View All Shipments
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🌱 Farm Updates</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-green-50 rounded-lg">
+                            <div class="font-semibold text-green-700">Saffron Harvest</div>
+                            <div class="text-sm text-gray-600">Peak season started - Quality: Excellent</div>
+                            <div class="text-xs text-gray-500 mt-1">2 hours ago</div>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-lg">
+                            <div class="font-semibold text-blue-700">Weather Alert</div>
+                            <div class="text-sm text-gray-600">Optimal conditions for drying</div>
+                            <div class="text-xs text-gray-500 mt-1">6 hours ago</div>
+                        </div>
+                        <div class="p-3 bg-purple-50 rounded-lg">
+                            <div class="font-semibold text-purple-700">Quality Check</div>
+                            <div class="text-sm text-gray-600">Grade A+ certification received</div>
+                            <div class="text-xs text-gray-500 mt-1">1 day ago</div>
+                        </div>
+                    </div>
+                    <button onclick="showDashboardSection('farm')" class="w-full mt-4 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold transition-colors">
+                        View Farm Details
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">⛓️ Blockchain Verified</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-purple-50 rounded-lg">
+                            <div class="font-semibold text-purple-700">Origin Verified</div>
+                            <div class="text-sm text-gray-600">Kashmir Valley - Block #4521</div>
+                            <div class="text-xs text-gray-500 mt-1">Immutable record</div>
+                        </div>
+                        <div class="p-3 bg-green-50 rounded-lg">
+                            <div class="font-semibold text-green-700">Quality Certified</div>
+                            <div class="text-sm text-gray-600">Grade A+ - Block #4522</div>
+                            <div class="text-xs text-gray-500 mt-1">Verified by lab</div>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-lg">
+                            <div class="font-semibold text-blue-700">Export Cleared</div>
+                            <div class="text-sm text-gray-600">Customs - Block #4523</div>
+                            <div class="text-xs text-gray-500 mt-1">Government verified</div>
+                        </div>
+                    </div>
+                    <button onclick="showDashboardSection('blockchain')" class="w-full mt-4 bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg font-semibold transition-colors">
+                        View Full Ledger
+                    </button>
+                </div>
+            </div>
+
+            <!-- Business Performance Chart -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">📈 Business Performance</h3>
+                <div class="chart-container">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">📊</div>
+                        <p class="text-gray-600">Business Analytics Dashboard</p>
+                        <p class="text-sm text-gray-500 mt-2">Order volume, revenue trends, and quality metrics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUSINESS INTELLIGENCE -->
+        <div id="intelligenceSection" class="dashboard-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">🧠 Business Intelligence</h2>
+                <button onclick="exportIntelligenceReport()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    📊 Export Report
+                </button>
+            </div>
+
+            <!-- Intelligence Overview -->
+            <div class="grid lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600">₹3.9L</div>
+                        <div class="text-sm text-gray-600">Avg Monthly Spend</div>
+                        <div class="text-xs text-green-600 mt-1">↗️ +12% growth</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600">4.2</div>
+                        <div class="text-sm text-gray-600">Orders per Month</div>
+                        <div class="text-xs text-blue-600 mt-1">📈 Consistent</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600">7.5</div>
+                        <div class="text-sm text-gray-600">Days Avg Delivery</div>
+                        <div class="text-xs text-green-600 mt-1">⚡ Improved</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-600">98.5%</div>
+                        <div class="text-sm text-gray-600">Quality Score</div>
+                        <div class="text-xs text-green-600 mt-1">⭐ Excellent</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Analytics -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">📊 Purchase Patterns</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                            <div>
+                                <div class="font-semibold text-red-700">🌶️ Saffron</div>
+                                <div class="text-sm text-gray-600">45% of total orders</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold">₹8.2L</div>
+                                <div class="text-xs text-gray-500">Annual spend</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                            <div>
+                                <div class="font-semibold text-red-700">🍎 Pomegranates</div>
+                                <div class="text-sm text-gray-600">30% of total orders</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold">₹5.5L</div>
+                                <div class="text-xs text-gray-500">Annual spend</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-amber-50 rounded-lg">
+                            <div>
+                                <div class="font-semibold text-amber-700">🥜 Almonds</div>
+                                <div class="text-sm text-gray-600">25% of total orders</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold">₹4.8L</div>
+                                <div class="text-xs text-gray-500">Annual spend</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">📈 Seasonal Trends</h3>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-green-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="font-semibold text-green-700">Peak Season</div>
+                                <div class="text-sm text-green-600">Oct - Dec</div>
+                            </div>
+                            <div class="text-sm text-gray-600 mt-1">60% higher order volume during harvest</div>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="font-semibold text-blue-700">Regular Season</div>
+                                <div class="text-sm text-blue-600">Jan - Sep</div>
+                            </div>
+                            <div class="text-sm text-gray-600 mt-1">Consistent monthly orders</div>
+                        </div>
+                        <div class="p-3 bg-purple-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div class="font-semibold text-purple-700">Best Value</div>
+                                <div class="text-sm text-purple-600">Nov - Jan</div>
+                            </div>
+                            <div class="text-sm text-gray-600 mt-1">15% better pricing during this period</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Predictive Analytics -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">🔮 Predictive Analytics</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="p-4 bg-blue-50 rounded-lg">
+                        <div class="font-semibold text-blue-700 mb-2">Next Order Prediction</div>
+                        <div class="text-2xl font-bold text-blue-600">Jan 28, 2024</div>
+                        <div class="text-sm text-gray-600">Based on historical patterns</div>
+                        <div class="text-xs text-blue-500 mt-2">📊 85% confidence</div>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg">
+                        <div class="font-semibold text-green-700 mb-2">Recommended Products</div>
+                        <div class="text-lg font-bold text-green-600">Saffron + Almonds</div>
+                        <div class="text-sm text-gray-600">Optimal combination for your business</div>
+                        <div class="text-xs text-green-500 mt-2">💡 AI Suggestion</div>
+                    </div>
+                    <div class="p-4 bg-purple-50 rounded-lg">
+                        <div class="font-semibold text-purple-700 mb-2">Cost Optimization</div>
+                        <div class="text-2xl font-bold text-purple-600">₹45,000</div>
+                        <div class="text-sm text-gray-600">Potential annual savings</div>
+                        <div class="text-xs text-purple-500 mt-2">💰 Smart ordering</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIVE LOGISTICS TRACKING -->
+        <div id="logisticsSection" class="dashboard-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">🚚 Live Logistics Tracking</h2>
+                <div class="flex space-x-3">
+                    <button onclick="refreshTracking()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        🔄 Refresh
+                    </button>
+                    <button onclick="trackNewShipment()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        📍 Track New
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Shipments -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🚢 Active Shipments</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="font-semibold text-blue-700">#SF-1250 - Pomegranates</div>
+                                    <div class="text-sm text-gray-600">500kg • Mumbai → Dubai</div>
+                                    <div class="text-xs text-gray-500 mt-1">Tracking: TRK-SF-1250</div>
+                                </div>
+                                <span class="bg-blue-500 text-white px-2 py-1 rounded text-xs">In Transit</span>
+                            </div>
+                            <div class="mt-3">
+                                <div class="flex justify-between text-sm">
+                                    <span>Progress</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">ETA: Jan 23, 2024 - 2:00 PM</div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="font-semibold text-green-700">#SF-1248 - Saffron</div>
+                                    <div class="text-sm text-gray-600">2kg • Kashmir → Dubai</div>
+                                    <div class="text-xs text-gray-500 mt-1">Tracking: TRK-SF-1248</div>
+                                </div>
+                                <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Delivered</span>
+                            </div>
+                            <div class="mt-3">
+                                <div class="flex justify-between text-sm">
+                                    <span>Delivered</span>
+                                    <span>100%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">Delivered: Jan 18, 2024 - 11:30 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🗺️ Live Map View</h3>
+                    <div class="h-64 bg-gradient-to-br from-blue-100 to-green-100 rounded-lg flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🗺️</div>
+                            <p class="text-gray-600 font-semibold">Interactive Tracking Map</p>
+                            <p class="text-sm text-gray-500 mt-2">Real-time GPS tracking of all shipments</p>
+                            <div class="flex justify-center space-x-4 mt-4">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                    <span class="text-xs">In Transit</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                    <span class="text-xs">Delivered</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Tracking Timeline -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-6">📋 Shipment #SF-1250 Timeline</h3>
+                <div class="tracking-timeline">
+                    <div class="tracking-step">
+                        <div class="font-semibold">Order Confirmed</div>
+                        <div class="text-sm text-gray-600">Order placed and payment received</div>
+                        <div class="text-xs text-gray-500">Jan 15, 2024 - 10:30 AM</div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="font-semibold">Inventory Allocated</div>
+                        <div class="text-sm text-gray-600">Products reserved from warehouse</div>
+                        <div class="text-xs text-gray-500">Jan 15, 2024 - 2:15 PM</div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="font-semibold">Quality Check Completed</div>
+                        <div class="text-sm text-gray-600">Grade A+ quality verified</div>
+                        <div class="text-xs text-gray-500">Jan 16, 2024 - 9:00 AM</div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="font-semibold">Packaging & Documentation</div>
+                        <div class="text-sm text-gray-600">Export packaging and customs papers</div>
+                        <div class="text-xs text-gray-500">Jan 17, 2024 - 11:45 AM</div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="font-semibold">Shipped from Mumbai Port</div>
+                        <div class="text-sm text-gray-600">Container loaded on vessel MV Kashmir Express</div>
+                        <div class="text-xs text-gray-500">Jan 18, 2024 - 6:00 PM</div>
+                    </div>
+                    <div class="tracking-step">
+                        <div class="font-semibold">In Transit - Arabian Sea</div>
+                        <div class="text-sm text-gray-600">Current location: 75% to destination</div>
+                        <div class="text-xs text-gray-500">Jan 21, 2024 - 3:20 PM (Live)</div>
+                    </div>
+                    <div class="tracking-step pending">
+                        <div class="font-semibold text-gray-500">Expected: Jebel Ali Port</div>
+                        <div class="text-sm text-gray-500">Customs clearance and unloading</div>
+                        <div class="text-xs text-gray-400">Jan 23, 2024 - 2:00 PM (Estimated)</div>
+                    </div>
+                    <div class="tracking-step pending">
+                        <div class="font-semibold text-gray-500">Expected: Final Delivery</div>
+                        <div class="text-sm text-gray-500">Delivery to Emirates Fresh Markets</div>
+                        <div class="text-xs text-gray-400">Jan 24, 2024 - 10:00 AM (Estimated)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FARM MONITORING -->
+        <div id="farmSection" class="dashboard-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">🌱 Farm Monitoring</h2>
+                <div class="flex space-x-3">
+                    <button onclick="viewFarmCameras()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        📹 Live Cameras
+                    </button>
+                    <button onclick="downloadFarmReport()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        📊 Farm Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Farm Overview -->
+            <div class="grid lg:grid-cols-4 gap-6 mb-8">
+                <div class="farm-sensor">
+                    <div class="text-2xl font-bold">22°C</div>
+                    <div class="text-sm opacity-90">Temperature</div>
+                    <div class="text-xs mt-1">🌡️ Optimal</div>
+                </div>
+                <div class="farm-sensor">
+                    <div class="text-2xl font-bold">65%</div>
+                    <div class="text-sm opacity-90">Humidity</div>
+                    <div class="text-xs mt-1">💧 Perfect</div>
+                </div>
+                <div class="farm-sensor">
+                    <div class="text-2xl font-bold">7.2</div>
+                    <div class="text-sm opacity-90">Soil pH</div>
+                    <div class="text-xs mt-1">🌱 Excellent</div>
+                </div>
+                <div class="farm-sensor">
+                    <div class="text-2xl font-bold">12km/h</div>
+                    <div class="text-sm opacity-90">Wind Speed</div>
+                    <div class="text-xs mt-1">🌬️ Gentle</div>
+                </div>
+            </div>
+
+            <!-- Farm Sections -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🌶️ Saffron Fields</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-red-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-semibold text-red-700">Field A - Premium Zone</div>
+                                    <div class="text-sm text-gray-600">2.5 hectares • Peak harvest season</div>
+                                </div>
+                                <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Active</span>
+                            </div>
+                            <div class="mt-3 grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="font-bold text-red-600">95%</div>
+                                    <div class="text-xs text-gray-500">Bloom Rate</div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-green-600">A+</div>
+                                    <div class="text-xs text-gray-500">Quality Grade</div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-blue-600">12kg</div>
+                                    <div class="text-xs text-gray-500">Daily Yield</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-orange-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-semibold text-orange-700">Field B - Standard Zone</div>
+                                    <div class="text-sm text-gray-600">1.8 hectares • Mid harvest</div>
+                                </div>
+                                <span class="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Monitoring</span>
+                            </div>
+                            <div class="mt-3 grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="font-bold text-orange-600">78%</div>
+                                    <div class="text-xs text-gray-500">Bloom Rate</div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-green-600">A</div>
+                                    <div class="text-xs text-gray-500">Quality Grade</div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-blue-600">8kg</div>
+                                    <div class="text-xs text-gray-500">Daily Yield</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🥜 Almond Orchards</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-amber-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-semibold text-amber-700">Orchard 1 - Mamra Variety</div>
+                                    <div class="text-sm text-gray-600">3.2 hectares • Post harvest</div>
+                                </div>
+                                <span class="bg-blue-500 text-white px-2 py-1 rounded text-xs">Processing</span>
+                            </div>
+                            <div class="mt-3 grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="font-bold text-amber-600">2.8T</div>
+                                    <div class="text-xs text-gray-500">Total Yield</div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-green-600">Premium</div>
+                                    <div class="text-xs text-gray-500">Quality</div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-blue-600">85%</div>
+                                    <div class="text-xs text-gray-500">Processed</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <div class="font-semibold text-green-700">Orchard 2 - Gurbandi Variety</div>
+                                    <div class="text-sm text-gray-600">2.1 hectares • Drying phase</div>
+                                </div>
+                                <span class="bg-green-500 text-white px-2 py-1 rounded text-xs">Ready</span>
+                            </div>
+                            <div class="mt-3 grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="font-bold text-green-600">1.9T</div>
+                                    <div class="text-xs text-gray-500">Total Yield</div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-green-600">Export</div>
+                                    <div class="text-xs text-gray-500">Quality</div>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-blue-600">100%</div>
+                                    <div class="text-xs text-gray-500">Ready</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather & Alerts -->
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🌤️ Weather Forecast</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="text-2xl">☀️</div>
+                                <div>
+                                    <div class="font-semibold">Today</div>
+                                    <div class="text-sm text-gray-600">Clear skies</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold">22°C</div>
+                                <div class="text-sm text-gray-600">65% humidity</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="text-2xl">⛅</div>
+                                <div>
+                                    <div class="font-semibold">Tomorrow</div>
+                                    <div class="text-sm text-gray-600">Partly cloudy</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold">20°C</div>
+                                <div class="text-sm text-gray-600">70% humidity</div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="text-2xl">🌧️</div>
+                                <div>
+                                    <div class="font-semibold">Day 3</div>
+                                    <div class="text-sm text-gray-600">Light rain expected</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold">18°C</div>
+                                <div class="text-sm text-gray-600">85% humidity</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🚨 Farm Alerts</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <div class="font-semibold text-green-700">Optimal Harvest Conditions</div>
+                            <div class="text-sm text-gray-600">Perfect weather for saffron picking</div>
+                            <div class="text-xs text-gray-500 mt-1">2 hours ago</div>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                            <div class="font-semibold text-blue-700">Irrigation Scheduled</div>
+                            <div class="text-sm text-gray-600">Automated watering system activated</div>
+                            <div class="text-xs text-gray-500 mt-1">6 hours ago</div>
+                        </div>
+                        <div class="p-3 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <div class="font-semibold text-purple-700">Quality Inspection Complete</div>
+                            <div class="text-sm text-gray-600">Grade A+ certification received</div>
+                            <div class="text-xs text-gray-500 mt-1">1 day ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BLOCKCHAIN LEDGER -->
+        <div id="blockchainSection" class="dashboard-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">⛓️ Blockchain Ledger</h2>
+                <div class="flex space-x-3">
+                    <button onclick="verifyProduct()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        🔍 Verify Product
+                    </button>
+                    <button onclick="downloadCertificate()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        📜 Download Certificate
+                    </button>
+                </div>
+            </div>
+
+            <!-- Blockchain Overview -->
+            <div class="grid lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600">4,523</div>
+                        <div class="text-sm text-gray-600">Total Blocks</div>
+                        <div class="text-xs text-green-600 mt-1">✅ Verified</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600">47</div>
+                        <div class="text-sm text-gray-600">Your Transactions</div>
+                        <div class="text-xs text-blue-600 mt-1">🔒 Immutable</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600">100%</div>
+                        <div class="text-sm text-gray-600">Authenticity</div>
+                        <div class="text-xs text-green-600 mt-1">⭐ Guaranteed</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-orange-600">12</div>
+                        <div class="text-sm text-gray-600">Certificates</div>
+                        <div class="text-xs text-orange-600 mt-1">📜 Digital</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Blockchain Entries -->
+            <div class="space-y-4 mb-8">
+                <h3 class="text-xl font-bold text-gray-900">📋 Recent Blockchain Entries</h3>
+                
+                <div class="blockchain-block">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-bold text-lg">Block #4523</div>
+                            <div class="text-sm opacity-90">Export Clearance - Order #SF-1250</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm opacity-90">Jan 18, 2024</div>
+                            <div class="text-xs opacity-75">14:32:18 UTC</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-xs opacity-75">Product</div>
+                            <div class="font-semibold">Pomegranates - 500kg</div>
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-75">Verification</div>
+                            <div class="font-semibold">✅ Government Certified</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-xs opacity-75 font-mono">
+                        Hash: 0x7f9a8b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b
+                    </div>
+                </div>
+
+                <div class="blockchain-block">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-bold text-lg">Block #4522</div>
+                            <div class="text-sm opacity-90">Quality Certification - Lab Test Results</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm opacity-90">Jan 16, 2024</div>
+                            <div class="text-xs opacity-75">09:15:42 UTC</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-xs opacity-75">Grade</div>
+                            <div class="font-semibold">A+ Premium Quality</div>
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-75">Lab</div>
+                            <div class="font-semibold">✅ NABL Certified Lab</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-xs opacity-75 font-mono">
+                        Hash: 0x8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c
+                    </div>
+                </div>
+
+                <div class="blockchain-block">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-bold text-lg">Block #4521</div>
+                            <div class="text-sm opacity-90">Origin Verification - Farm Source</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm opacity-90">Jan 15, 2024</div>
+                            <div class="text-xs opacity-75">16:45:33 UTC</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-xs opacity-75">Farm</div>
+                            <div class="font-semibold">Kashmir Valley - Field A</div>
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-75">GPS</div>
+                            <div class="font-semibold">✅ 34.0837°N, 74.7973°E</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-xs opacity-75 font-mono">
+                        Hash: 0x9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Verification -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">🔍 Product Verification</h3>
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Product Batch ID</label>
+                                <input type="text" placeholder="Enter batch ID (e.g., SF-1250-POM-001)" class="w-full p-3 border border-gray-300 rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">QR Code / Blockchain Hash</label>
+                                <input type="text" placeholder="Scan QR code or enter hash" class="w-full p-3 border border-gray-300 rounded-lg">
+                            </div>
+                            <button onclick="verifyProductDetails()" class="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                                🔍 Verify Authenticity
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h4 class="font-bold text-gray-900 mb-3">✅ Verification Results</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Origin:</span>
+                                <span class="font-semibold text-green-600">✅ Kashmir Valley</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Quality:</span>
+                                <span class="font-semibold text-green-600">✅ Grade A+</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Organic:</span>
+                                <span class="font-semibold text-green-600">✅ Certified</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Export:</span>
+                                <span class="font-semibold text-green-600">✅ Approved</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Blockchain:</span>
+                                <span class="font-semibold text-green-600">✅ Immutable</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-green-100 rounded-lg">
+                            <div class="text-center text-green-700 font-semibold">
+                                🏆 100% Authentic Product
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PARTNERSHIP TOOLS -->
+        <div id="partnershipSection" class="dashboard-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">🤝 Partnership Tools</h2>
+                <button onclick="schedulePartnerMeeting()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    📅 Schedule Meeting
+                </button>
+            </div>
+
+            <!-- Partnership Metrics -->
+            <div class="grid lg:grid-cols-4 gap-6 mb-8">
+                <div class="partnership-metric">
+                    <div class="text-2xl font-bold">3.2 Years</div>
+                    <div class="text-sm opacity-90">Partnership Duration</div>
+                </div>
+                <div class="partnership-metric">
+                    <div class="text-2xl font-bold">₹18.5L</div>
+                    <div class="text-sm opacity-90">Total Business</div>
+                </div>
+                <div class="partnership-metric">
+                    <div class="text-2xl font-bold">98.5%</div>
+                    <div class="text-sm opacity-90">Satisfaction Score</div>
+                </div>
+                <div class="partnership-metric">
+                    <div class="text-2xl font-bold">Gold</div>
+                    <div class="text-sm opacity-90">Partner Tier</div>
+                </div>
+            </div>
+
+            <!-- Partnership Benefits -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🏆 Your Benefits</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3 p-3 bg-gold/10 rounded-lg">
+                            <div class="w-8 h-8 bg-gold rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">15%</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Volume Discount</div>
+                                <div class="text-sm text-gray-600">On orders above ₹5L</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">⚡</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Priority Processing</div>
+                                <div class="text-sm text-gray-600">24-hour order processing</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">📞</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Dedicated Support</div>
+                                <div class="text-sm text-gray-600">Personal account manager</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm font-bold">🎯</span>
+                            </div>
+                            <div>
+                                <div class="font-semibold">Custom Solutions</div>
+                                <div class="text-sm text-gray-600">Tailored product offerings</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">📊 Partnership Analytics</h3>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Order Frequency</span>
+                                <span class="font-semibold">4.2/month</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Payment Reliability</span>
+                                <span class="font-semibold">100%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Growth Rate</span>
+                                <span class="font-semibold">+28.7%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Satisfaction Score</span>
+                                <span class="font-semibold">98.5%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                                <div class="bg-gold h-2 rounded-full" style="width: 98%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Communication Tools -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">💬 Communication Hub</h3>
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <div class="p-4 bg-blue-50 rounded-lg text-center">
+                        <div class="text-3xl mb-2">📞</div>
+                        <div class="font-semibold mb-2">Direct Hotline</div>
+                        <div class="text-sm text-gray-600 mb-3">24/7 dedicated support line</div>
+                        <button onclick="callSupport()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                            Call Now
+                        </button>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg text-center">
+                        <div class="text-3xl mb-2">💬</div>
+                        <div class="font-semibold mb-2">WhatsApp Business</div>
+                        <div class="text-sm text-gray-600 mb-3">Instant messaging support</div>
+                        <button onclick="openWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                            Chat Now
+                        </button>
+                    </div>
+                    <div class="p-4 bg-purple-50 rounded-lg text-center">
+                        <div class="text-3xl mb-2">📧</div>
+                        <div class="font-semibold mb-2">Priority Email</div>
+                        <div class="text-sm text-gray-600 mb-3">Guaranteed 2-hour response</div>
+                        <button onclick="sendEmail()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                            Send Email
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACADEMY ACCESS -->
+        <div id="academySection" class="dashboard-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">🎓 Academy Access</h2>
+                <button onclick="viewAllCourses()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    📚 View All Courses
+                </button>
+            </div>
+
+            <!-- Learning Progress -->
+            <div class="grid lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-red-600">12</div>
+                        <div class="text-sm text-gray-600">Courses Completed</div>
+                        <div class="text-xs text-green-600 mt-1">🏆 Expert Level</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-600">3</div>
+                        <div class="text-sm text-gray-600">In Progress</div>
+                        <div class="text-xs text-blue-600 mt-1">📖 Learning</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-600">45h</div>
+                        <div class="text-sm text-gray-600">Learning Hours</div>
+                        <div class="text-xs text-green-600 mt-1">⏱️ This Year</div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-600">8</div>
+                        <div class="text-sm text-gray-600">Certificates</div>
+                        <div class="text-xs text-purple-600 mt-1">📜 Earned</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Courses -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div class="academy-course">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-bold text-xl">🌶️ Saffron Quality Assessment</div>
+                            <div class="text-sm opacity-90 mt-1">Learn to identify premium saffron grades</div>
+                        </div>
+                        <span class="bg-white text-red-600 px-2 py-1 rounded text-xs font-bold">NEW</span>
+                    </div>
+                    <div class="mt-4 grid grid-cols-3 gap-4">
+                        <div>
+                            <div class="text-xs opacity-75">Duration</div>
+                            <div class="font-semibold">2.5 hours</div>
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-75">Level</div>
+                            <div class="font-semibold">Intermediate</div>
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-75">Progress</div>
+                            <div class="font-semibold">0%</div>
+                        </div>
+                    </div>
+                    <button onclick="startCourse('saffron-quality')" class="w-full mt-4 bg-white text-red-600 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        Start Course
+                    </button>
+                </div>
+
+                <div class="academy-course">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-bold text-xl">📦 Export Documentation</div>
+                            <div class="text-sm opacity-90 mt-1">Master international trade paperwork</div>
+                        </div>
+                        <span class="bg-white text-red-600 px-2 py-1 rounded text-xs font-bold">75%</span>
+                    </div>
+                    <div class="mt-4 grid grid-cols-3 gap-4">
+                        <div>
+                            <div class="text-xs opacity-75">Duration</div>
+                            <div class="font-semibold">3 hours</div>
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-75">Level</div>
+                            <div class="font-semibold">Advanced</div>
+                        </div>
+                        <div>
+                            <div class="text-xs opacity-75">Progress</div>
+                            <div class="font-semibold">75%</div>
+                        </div>
+                    </div>
+                    <button onclick="continueCourse('export-docs')" class="w-full mt-4 bg-white text-red-600 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        Continue Course
+                    </button>
+                </div>
+            </div>
+
+            <!-- Course Categories -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">📚 Course Categories</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="p-4 bg-red-50 rounded-lg">
+                        <div class="text-2xl mb-2">🌶️</div>
+                        <div class="font-semibold mb-2">Product Knowledge</div>
+                        <div class="text-sm text-gray-600 mb-3">Learn about saffron, spices, and dry fruits</div>
+                        <div class="text-xs text-red-600">6 courses available</div>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg">
+                        <div class="text-2xl mb-2">🌍</div>
+                        <div class="font-semibold mb-2">International Trade</div>
+                        <div class="text-sm text-gray-600 mb-3">Export regulations and documentation</div>
+                        <div class="text-xs text-blue-600">4 courses available</div>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg">
+                        <div class="text-2xl mb-2">📊</div>
+                        <div class="font-semibold mb-2">Business Analytics</div>
+                        <div class="text-sm text-gray-600 mb-3">Market trends and business intelligence</div>
+                        <div class="text-xs text-green-600">5 courses available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ORDER HISTORY -->
+        <div id="ordersSection" class="dashboard-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">📦 Order History</h2>
+                <button onclick="createNewOrder()" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    ➕ New Order
+                </button>
+            </div>
+
+            <!-- Order Filters -->
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <div class="grid md:grid-cols-5 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="">All Orders</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="transit">In Transit</option>
+                            <option value="processing">Processing</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="">All Products</option>
+                            <option value="saffron">Saffron</option>
+                            <option value="pomegranates">Pomegranates</option>
+                            <option value="almonds">Almonds</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                        <input type="date" class="w-full p-3 border border-gray-300 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                        <input type="date" class="w-full p-3 border border-gray-300 rounded-lg">
+                    </div>
+                    <div class="flex items-end">
+                        <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-colors">
+                            🔍 Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="text-left py-4 px-6 font-semibold text-gray-700">Order ID</th>
+                                <th class="text-left py-4 px-6 font-semibold text-gray-700">Products</th>
+                                <th class="text-left py-4 px-6 font-semibold text-gray-700">Date</th>
+                                <th class="text-left py-4 px-6 font-semibold text-gray-700">Amount</th>
+                                <th class="text-left py-4 px-6 font-semibold text-gray-700">Status</th>
+                                <th class="text-left py-4 px-6 font-semibold text-gray-700">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 px-6 font-mono text-sm">#SF-1250</td>
+                                <td class="py-4 px-6">
+                                    <div class="font-semibold">Pomegranates</div>
+                                    <div class="text-sm text-gray-600">500kg • Grade A+</div>
+                                </td>
+                                <td class="py-4 px-6 text-sm">Jan 15, 2024</td>
+                                <td class="py-4 px-6 font-semibold">₹90,000</td>
+                                <td class="py-4 px-6">
+                                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">In Transit</span>
+                                </td>
+                                <td class="py-4 px-6">
+                                    <div class="flex space-x-2">
+                                        <button onclick="viewOrderDetails('SF-1250')" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">View</button>
+                                        <button onclick="trackOrder('SF-1250')" class="text-green-600 hover:text-green-800 font-semibold text-sm">Track</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-4 px-6 font-mono text-sm">#SF-1248</td>
+                                <td class="py-4 px-6">
+                                    <div class="font-semibold">Saffron</div>
+                                    <div class="text-sm text-gray-600">2kg • Premium</div>
+                                </td>
+                                <td class="py-4 px-6 text-sm">Jan 10, 2024</td>
+                                <td class="py-4 px-6 font-semibold">₹9,00,000</td>
+                                <td class="py-4 px-6">
+                                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Delivered</span>
+                                </td>
+                                <td class="py-4 px-6">
+                                    <div class="flex space-x-2">
+                                        <button onclick="viewOrderDetails('SF-1248')" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">View</button>
+                                        <button onclick="reorderProduct('SF-1248')" class="text-purple-600 hover:text-purple-800 font-semibold text-sm">Reorder</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- More order rows would be here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCOUNT PROFILE -->
+        <div id="profileSection" class="dashboard-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-900">👤 Account Profile</h2>
+                <button onclick="editProfile()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    ✏️ Edit Profile
+                </button>
+            </div>
+
+            <!-- Profile Information -->
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🏢 Company Information</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                            <div class="text-lg font-semibold">Emirates Fresh Markets</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Type</label>
+                            <div class="text-lg">Premium Retailer</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Registration Number</label>
+                            <div class="text-lg font-mono">UAE-123456789</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tax ID</label>
+                            <div class="text-lg font-mono">100123456789003</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">📞 Contact Details</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Primary Contact</label>
+                            <div class="text-lg font-semibold">Ahmed Al Rashid</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <div class="text-lg">ahmed@emiratesfresh.ae</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                            <div class="text-lg">+971-50-123-4567</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">WhatsApp</label>
+                            <div class="text-lg">+971-50-123-4567</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Navigation Functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        function showDashboardSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById(sectionName + 'Section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Add active class to current nav item
+            const navButtons = document.querySelectorAll('.nav-item');
+            navButtons.forEach(button => {
+                if (button.textContent.toLowerCase().includes(sectionName) || 
+                    (sectionName === 'overview' && button.textContent.includes('Business Dashboard')) ||
+                    (sectionName === 'intelligence' && button.textContent.includes('Business Intelligence')) ||
+                    (sectionName === 'logistics' && button.textContent.includes('Live Logistics')) ||
+                    (sectionName === 'farm' && button.textContent.includes('Farm Monitoring')) ||
+                    (sectionName === 'blockchain' && button.textContent.includes('Blockchain Ledger')) ||
+                    (sectionName === 'partnership' && button.textContent.includes('Partnership Tools')) ||
+                    (sectionName === 'academy' && button.textContent.includes('Academy Access')) ||
+                    (sectionName === 'orders' && button.textContent.includes('Order History')) ||
+                    (sectionName === 'profile' && button.textContent.includes('Account Profile'))) {
+                    button.classList.add('active');
+                }
+            });
+
+            // Close sidebar on mobile after navigation
+            if (window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+        }
+
+        // Business Intelligence Functions
+        function exportIntelligenceReport() {
+            alert('📊 BUSINESS INTELLIGENCE REPORT\n\nGenerating comprehensive analytics report...\n\nReport includes:\n• Purchase patterns analysis\n• Seasonal trend insights\n• Cost optimization recommendations\n• Predictive analytics\n• Performance benchmarks\n\nReport will be emailed to ahmed@emiratesfresh.ae');
+        }
+
+        // Logistics Functions
+        function refreshTracking() {
+            alert('🔄 TRACKING REFRESH\n\nUpdating real-time tracking data...\n\n✅ All shipment locations updated\n✅ ETA calculations refreshed\n✅ Status notifications synchronized\n\nLast updated: Just now');
+        }
+
+        function trackNewShipment() {
+            const trackingId = prompt('📍 TRACK NEW SHIPMENT\n\nEnter tracking ID or order number:');
+            if (trackingId) {
+                alert(`🚚 TRACKING: ${trackingId}\n\nSearching for shipment...\n\n✅ Shipment found!\n📍 Current location: Mumbai Port\n🚢 Status: Loading in progress\n⏰ ETA: 3 days\n\nFull tracking details loaded!`);
+            }
+        }
+
+        // Farm Monitoring Functions
+        function viewFarmCameras() {
+            alert('📹 LIVE FARM CAMERAS\n\nAccessing real-time farm surveillance...\n\nAvailable cameras:\n🌶️ Saffron Field A - Live\n🌶️ Saffron Field B - Live\n🥜 Almond Orchard 1 - Live\n🥜 Almond Orchard 2 - Live\n🏭 Processing Unit - Live\n\nCamera system loading...');
+        }
+
+        function downloadFarmReport() {
+            alert('📊 FARM MONITORING REPORT\n\nGenerating comprehensive farm report...\n\nReport includes:\n• Weather data analysis\n• Soil condition reports\n• Crop health assessments\n• Yield predictions\n• Quality metrics\n• Harvest schedules\n\nReport will be downloaded shortly!');
+        }
+
+        // Blockchain Functions
+        function verifyProduct() {
+            const productId = prompt('🔍 PRODUCT VERIFICATION\n\nEnter product batch ID or scan QR code:');
+            if (productId) {
+                alert(`⛓️ BLOCKCHAIN VERIFICATION\n\nProduct: ${productId}\n\n✅ Origin: Kashmir Valley - Verified\n✅ Quality: Grade A+ - Certified\n✅ Organic: USDA Certified\n✅ Export: Government Approved\n✅ Chain of Custody: Complete\n\n🏆 100% AUTHENTIC PRODUCT`);
+            }
+        }
+
+        function downloadCertificate() {
+            alert('📜 DIGITAL CERTIFICATE\n\nDownloading blockchain certificate...\n\nCertificate includes:\n• Product authenticity proof\n• Origin verification\n• Quality certifications\n• Export approvals\n• Blockchain hash verification\n\nDigital certificate downloaded!');
+        }
+
+        function verifyProductDetails() {
+            alert('🔍 PRODUCT VERIFICATION COMPLETE\n\n✅ Authenticity: 100% Verified\n✅ Origin: Kashmir Valley\n✅ Quality: Grade A+ Premium\n✅ Organic: Certified\n✅ Export: Government Approved\n✅ Blockchain: Immutable Record\n\n🏆 This product is completely authentic and traceable!');
+        }
+
+        // Partnership Functions
+        function schedulePartnerMeeting() {
+            alert('📅 SCHEDULE PARTNER MEETING\n\nMeeting request form:\n• Preferred date & time\n• Meeting type (Video/Phone/In-person)\n• Agenda topics\n• Attendees\n• Duration\n\nYour account manager will contact you within 2 hours to confirm the meeting!');
+        }
+
+        function callSupport() {
+            alert('📞 DIRECT SUPPORT HOTLINE\n\nConnecting to your dedicated account manager...\n\n👤 Ahmed Al Rashid - Account Manager\n📞 Direct Line: +91-98765-43210\n⏰ Available: 24/7\n🌍 Language: English, Arabic, Hindi\n\nCall connecting...');
+        }
+
+        function openWhatsApp() {
+            alert('💬 WHATSAPP BUSINESS\n\nOpening WhatsApp chat with your account manager...\n\n👤 Saffron Naturals Support\n📱 WhatsApp: +91-98765-43210\n⚡ Response Time: < 5 minutes\n🌍 Available: 24/7\n\nWhatsApp opening...');
+        }
+
+        function sendEmail() {
+            alert('📧 PRIORITY EMAIL SUPPORT\n\nOpening priority email form...\n\n📧 To: support@saffronnaturals.com\n⚡ Priority: High (Gold Partner)\n⏰ Response Time: < 2 hours\n📋 Auto-filled: Account details\n\nEmail composer opening...');
+        }
+
+        // Academy Functions
+        function viewAllCourses() {
+            alert('📚 SAFFRON NATURALS ACADEMY\n\nAccessing full course catalog...\n\nAvailable categories:\n🌶️ Product Knowledge (6 courses)\n🌍 International Trade (4 courses)\n📊 Business Analytics (5 courses)\n🏆 Quality Management (3 courses)\n💼 Partnership Excellence (2 courses)\n\nAcademy portal loading...');
+        }
+
+        function startCourse(courseId) {
+            alert(`🎓 STARTING COURSE\n\nCourse: Saffron Quality Assessment\n\n📚 Module 1: Introduction to Saffron\n📚 Module 2: Grading Standards\n📚 Module 3: Quality Testing\n📚 Module 4: Certification Process\n\n⏱️ Duration: 2.5 hours\n🏆 Certificate: Yes\n\nCourse player loading...`);
+        }
+
+        function continueCourse(courseId) {
+            alert(`📖 CONTINUING COURSE\n\nCourse: Export Documentation\n\n✅ Module 1: Completed\n✅ Module 2: Completed\n✅ Module 3: Completed\n📚 Module 4: Current (75% complete)\n📚 Module 5: Pending\n\n⏱️ Remaining: 45 minutes\n🏆 Certificate: 25% to completion\n\nResuming course...`);
+        }
+
+        // Order Functions
+        function createNewOrder() {
+            alert('➕ CREATE NEW ORDER\n\nOrder creation wizard:\n\n📦 Step 1: Select products\n📊 Step 2: Specify quantities\n💰 Step 3: Review pricing\n🚚 Step 4: Delivery details\n💳 Step 5: Payment terms\n\nOrder wizard loading...');
+        }
+
+        function viewOrderDetails(orderId) {
+            alert(`📋 ORDER DETAILS - ${orderId}\n\nOrder Information:\n📦 Product: Pomegranates (500kg)\n💰 Amount: ₹90,000\n📅 Order Date: Jan 15, 2024\n🚚 Status: In Transit\n📍 Current Location: Arabian Sea\n⏰ ETA: Jan 23, 2024\n\nFull order details loading...`);
+        }
+
+        function trackOrder(orderId) {
+            alert(`🚢 TRACKING ORDER ${orderId}\n\nReal-time tracking:\n✅ Order Confirmed (Jan 15)\n✅ Quality Check (Jan 16)\n✅ Shipped from Mumbai (Jan 18)\n🚢 In Transit - Arabian Sea (Current)\n⏳ Expected: Jebel Ali Port (Jan 23)\n⏳ Final Delivery (Jan 24)\n\nLive tracking map loading...`);
+        }
+
+        function reorderProduct(orderId) {
+            alert(`🔄 REORDER PRODUCT\n\nReordering from ${orderId}:\n\n📦 Product: Saffron (2kg)\n💰 Previous Price: ₹9,00,000\n💰 Current Price: ₹8,50,000 (5% discount)\n\n✅ Same quality specifications\n✅ Same delivery address\n✅ Preferred payment terms\n\nReorder form loading...`);
+        }
+
+        // Profile Functions
+        function editProfile() {
+            alert('✏️ EDIT PROFILE\n\nProfile editing form:\n\n🏢 Company Information\n📞 Contact Details\n📍 Billing Address\n💳 Payment Preferences\n🔔 Notification Settings\n🔐 Security Settings\n\nProfile editor loading...');
+        }
+
+        // System Functions
+        function logout() {
+            if (confirm('Are you sure you want to logout from your client portal?')) {
+                alert('👋 LOGOUT SUCCESSFUL\n\nThank you for using Saffron Naturals Client Portal!\n\n✅ Session ended securely\n✅ Data synchronized\n✅ Notifications saved\n\nRedirecting to login page...');
+            }
+        }
+
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎛️ Client Portal loaded successfully!');
+            showDashboardSection('overview'); // Show overview by default
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9732f23426da8b82',t:'MTc1NTg3MTc0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
