@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - Saffron Naturals ERP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Saffron Naturals</h1>
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="inventory.html">Inventory</a>
+            <a href="orders.html">Orders</a>
+        </nav>
+    </header>
+    <section id="orders">
+        <h2>Order Management</h2>
+        <p>Active orders:</p>
+        <ul>
+            <li>Order #1: 500kg Pomegranates to Germany - Shipped</li>
+            <li>Order #2: 300kg Apples to USA - Pending</li>
+        </ul>
+        <form>
+            <label for="new-order">Add New Order:</label>
+            <input type="text" id="new-order" placeholder="e.g., 200kg Oranges">
+            <button type="button" onclick="alert('Order added!')">Submit</button>
+        </form>
+    </section>
+    <footer>
+        <p>&copy; 2025 Saffron Naturals. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
