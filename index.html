@@ -3121,11 +3121,10 @@
         setInterval(updateLiveMetrics, 5000);
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97326b6d814b3bb0',t:'MTc1NTg2NjIyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script src="https://unpkg.com/@supabase/supabase-js"></script>
+ <script src="https://unpkg.com/@supabase/supabase-js"></script>
 <script>
-  const SUPABASE_URL = "https://nylqihwnftbmkxuysgko.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55bHFpaHduZnRibWt4dXlzZ2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4NzY4MjAsImV4cCI6MjA3MTQ1MjgyMH0.s6YLFNTUJowCdQnxMwdwpvoC-4PNx80DnVG2Tw0Yk_c
-";
+  const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
+  const SUPABASE_ANON_KEY = "YOUR-ANON-KEY";
   const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   document.getElementById("loginForm").addEventListener("submit", async (e) => {
@@ -3141,11 +3140,10 @@
     if (error) {
       alert("Login failed: " + error.message);
     } else {
-      localStorage.setItem("sb-auth-token", JSON.stringify(data.session));
+      // Redirect immediately (Supabase already stores the session internally)
       window.location.href = "Admin_login.html";
     }
   });
 </script>
-
 </body>
 </html>
