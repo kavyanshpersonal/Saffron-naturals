@@ -1,0 +1,10 @@
+body { font-family: Arial, sans-serif; background: #f0f8ff; color: #333; margin: 0; padding: 0; }
+header { background: #228b22; color: white; padding: 10px; text-align: center; }
+nav a { color: white; margin: 0 15px; text-decoration: none; }
+section { padding: 20px; text-align: center; }
+h2 { color: #228b22; }
+table { margin: 0 auto; border-collapse: collapse; }
+th, td { border: 1px solid #ddd; padding: 8px; }
+button { background: #228b22; color: white; padding: 10px; border: none; cursor: pointer; }
+.fruit-image { max-width: 100%; height: auto; }
+footer { background: #228b22; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
