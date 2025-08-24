@@ -197,35 +197,82 @@
                 <p class="text-gray-600">Access your Trust Engine dashboard</p>
             </div>
             
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input type="email" id="loginEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-saffron focus:border-transparent transition-all" placeholder="your@email.com">
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                    <input type="password" id="loginPassword" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-saffron focus:border-transparent transition-all" placeholder="Enter your password">
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center">
-                        <input type="checkbox" class="rounded border-gray-300 text-saffron focus:ring-saffron">
-                        <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-                    <a href="#" class="text-sm text-saffron hover:text-gold transition-colors">Forgot password?</a>
-                </div>
-                
-                <button type="submit" class="w-full bg-gradient-to-r from-saffron to-gold text-white py-3 rounded-lg font-semibold hover:from-gold hover:to-saffron transition-all transform hover:scale-105">
-                    Sign In to Dashboard
-                </button>
-            </form>
-            
-            <div class="mt-6 text-center">
-                <p class="text-gray-600 text-sm">Don't have an account? 
-                    <a href="#" onclick="showSignupForm()" class="text-saffron hover:text-gold font-semibold transition-colors">Request Access</a>
-                </p>
-            </div>
+            <script>
+  // Supabase-based login
+  async function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail')?.value?.trim();
+    const password = document.getElementById('loginPassword')?.value;
+
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.innerHTML = '🔄 Signing In...';
+    submitBtn.disabled = true;
+
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) {
+      alert('Login failed: ' + error.message);
+      submitBtn.innerHTML = originalHTML;
+      submitBtn.disabled = false;
+      return;
+    }
+
+    const role = data.user?.user_metadata?.role || 'client';
+    closeLoginModal();
+    // Redirect by role
+    window.location.href = role === 'admin' ? 'Admin_login.html' : 'Client_login.html';
+  }
+
+  // Self-registration (keeps your simple UX: tap "Request Access")
+  async function showSignupForm() {
+    const name = prompt('Your name (for invoices):');
+    const email = prompt('Your email:');
+    const password = prompt('Create password (min 6 chars):');
+    if (!email || !password) return;
+
+    const { data, error } = await sb.auth.signUp({
+      email, password,
+      options: { data: { name: name || '', role: 'client' } }
+    });
+    if (error) { alert('Sign up failed: ' + error.message); return; }
+
+    alert('Account created. Please verify email if required. Redirecting to client dashboard…');
+    closeLoginModal();
+    window.location.href = 'Client_login.html';
+  }
+
+  // Show correct top-right button state
+  function updateLoginState() {
+    const loginButton = document.querySelector('button[onclick="openLoginModal()"]');
+    if (!loginButton) return;
+
+    sb.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        const role = session.user.user_metadata?.role || 'client';
+        loginButton.innerHTML = role === 'admin'
+          ? '<span>👤</span><span>Admin Panel</span>'
+          : '<span>👤</span><span>My Dashboard</span>';
+
+        loginButton.onclick = () => {
+          window.location.href = role === 'admin' ? 'Admin_login.html' : 'Client_login.html';
+        };
+      } else {
+        loginButton.innerHTML = '<span>🔐</span><span>Login</span>';
+        loginButton.onclick = () => openLoginModal();
+      }
+    });
+  }
+
+  // Proper logout (if you call this from anywhere)
+  async function logout(event) {
+    if (event?.stopPropagation) event.stopPropagation();
+    await sb.auth.signOut();
+    location.reload();
+  }
+
+  // Keep your original lifecycle call
+  document.addEventListener('DOMContentLoaded', updateLoginState);
+</script>
             
             <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
