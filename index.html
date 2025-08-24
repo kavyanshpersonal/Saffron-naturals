@@ -136,14 +136,6 @@
         }
     </style>
 </head>
-    <!-- Supabase SDK -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script>
-  // TODO: replace with your real project values
-  const SUPABASE_URL = "https://nylqihwnftbmkxuysgko.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55bHFpaHduZnRibWt4dXlzZ2tvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4NzY4MjAsImV4cCI6MjA3MTQ1MjgyMH0.s6YLFNTUJowCdQnxMwdwpvoC-4PNx80DnVG2Tw0Yk_c";
-  window.sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-</script>
 <body class="bg-gray-50">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
@@ -170,12 +162,18 @@
                     <a href="#farmers" class="text-gray-700 hover:text-saffron transition-colors">Farmers</a>
                     <a href="#academy" class="text-gray-700 hover:text-saffron transition-colors">Academy</a>
                     <a href="#contact" class="text-gray-700 hover:text-saffron transition-colors">Contact</a>
-                    
+
                     <!-- Login Button -->
-                    <button onclick="openLoginModal()" class="bg-gradient-to-r from-saffron to-gold text-white px-6 py-2 rounded-lg font-semibold hover:from-gold hover:to-saffron transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg">
-                        <span>🔐</span>
-                        <span>Login</span>
-                    </button>
+<button onclick="openLoginModal()" class="bg-gradient-to-r from-saffron to-gold text-white px-6 py-2 rounded-lg font-semibold hover:from-gold hover:to-saffron transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg">
+  <span>🔐</span>
+  <span>Login</span>
+</button>
+
+                   <!-- Login Link -->
+<a href="./login.html" class="bg-gradient-to-r from-saffron to-gold text-white px-6 py-2 rounded-lg font-semibold hover:from-gold hover:to-saffron transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg">
+  <span>🔐</span>
+  <span>Login</span>
+</a>
                 </div>
                 <button class="md:hidden" onclick="toggleMobileMenu()">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,83 +183,8 @@
             </div>
         </div>
     </nav>
-            <script>
-  // Supabase-based login
-  async function handleLogin(event) {
-    event.preventDefault();
-    const email = document.getElementById('loginEmail')?.value?.trim();
-    const password = document.getElementById('loginPassword')?.value;
-
-    const submitBtn = event.target.querySelector('button[type="submit"]');
-    const originalHTML = submitBtn.innerHTML;
-    submitBtn.innerHTML = '🔄 Signing In...';
-    submitBtn.disabled = true;
-
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) {
-      alert('Login failed: ' + error.message);
-      submitBtn.innerHTML = originalHTML;
-      submitBtn.disabled = false;
-      return;
-    }
-
-    const role = data.user?.user_metadata?.role || 'client';
-    closeLoginModal();
-    // Redirect by role
-    window.location.href = role === 'admin' ? 'Admin_login.html' : 'Client_login.html';
-  }
-
-  // Self-registration (keeps your simple UX: tap "Request Access")
-  async function showSignupForm() {
-    const name = prompt('Your name (for invoices):');
-    const email = prompt('Your email:');
-    const password = prompt('Create password (min 6 chars):');
-    if (!email || !password) return;
-
-    const { data, error } = await sb.auth.signUp({
-      email, password,
-      options: { data: { name: name || '', role: 'client' } }
-    });
-    if (error) { alert('Sign up failed: ' + error.message); return; }
-
-    alert('Account created. Please verify email if required. Redirecting to client dashboard…');
-    closeLoginModal();
-    window.location.href = 'Client_login.html';
-  }
-
-  // Show correct top-right button state
-  function updateLoginState() {
-    const loginButton = document.querySelector('button[onclick="openLoginModal()"]');
-    if (!loginButton) return;
-
-    sb.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        const role = session.user.user_metadata?.role || 'client';
-        loginButton.innerHTML = role === 'admin'
-          ? '<span>👤</span><span>Admin Panel</span>'
-          : '<span>👤</span><span>My Dashboard</span>';
-
-        loginButton.onclick = () => {
-          window.location.href = role === 'admin' ? 'Admin_login.html' : 'Client_login.html';
-        };
-      } else {
-        loginButton.innerHTML = '<span>🔐</span><span>Login</span>';
-        loginButton.onclick = () => openLoginModal();
-      }
-    });
-  }
-
-  // Proper logout (if you call this from anywhere)
-  async function logout(event) {
-    if (event?.stopPropagation) event.stopPropagation();
-    await sb.auth.signOut();
-    location.reload();
-  }
-
-  // Keep your original lifecycle call
-  document.addEventListener('DOMContentLoaded', updateLoginState);
-</script>  
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+    
+    <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -3163,14 +3086,5 @@
         setInterval(updateLiveMetrics, 5000);
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'973a1a363017002c',t:'MTc1NTk0Njc4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<!-- Supabase SDK -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script>
-  // TODO: replace with your real project values
-  const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-  const SUPABASE_ANON_KEY = "YOUR-ANON-KEY";
-  window.sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-</script>
-
 </body>
 </html>
