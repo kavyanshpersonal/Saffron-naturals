@@ -163,7 +163,70 @@
                     <a href="#farmers" class="text-gray-700 hover:text-saffron transition-colors">Farmers</a>
                     <a href="#academy" class="text-gray-700 hover:text-saffron transition-colors">Academy</a>
                     <a href="#contact" class="text-gray-700 hover:text-saffron transition-colors">Contact</a>
-                    
+
+                    <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Login</title>
+ <style>
+ body {
+ font-family: sans-serif;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 100vh;
+ background-color: #f4f4f4; /* Optional background */
+ }
+
+ .back-button-link {
+ text-decoration: none; /* Remove default link underline */
+ }
+
+ .back-button {
+ background-color: #d4a76a; /* Saffron-related color */
+ color: white;
+ border: none;
+ padding: 15px 30px;
+ border-radius: 25px; /* Rounded corners */
+ cursor: pointer;
+ font-size: 16px;
+ transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+ }
+
+ .back-button:hover {
+ transform: scale(1.05); /* Slight scale-up on hover */
+ box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+ }
+
+ .back-button::before {
+ content: '';
+ position: absolute;
+ top: -2px;
+ left: -2px;
+ right: -2px;
+ bottom: -2px;
+ border: 2px solid transparent;
+ border-radius: 27px;
+ transition: border-color 0.3s ease-in-out;
+ }
+
+ .back-button:hover::before {
+ border-color: #e6b88a; /* A slightly lighter shade for the halo effect */
+ }
+
+ .button-wrapper {
+ position: relative; /* Needed for pseudo-element positioning */
+ }
+ </style>
+</head>
+<body>
+ <div class="button-wrapper">
+ <a href="index.html" class="back-button-link">
+ <button class="back-button">
+ Back to Home
+ </button>
+ </a>
                     <!-- Login Link -->
 <a href="./login.html" class="bg-gradient-to-r from-saffron to-gold text-white px-6 py-2 rounded-lg font-semibold hover:from-gold hover:to-saffron transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg">
   <span>🔐</span>
