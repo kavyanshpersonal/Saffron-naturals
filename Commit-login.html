@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Saffron Naturals - Premium Fruits & Spices Exporter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pomegranate: '#C41E3A',
+                        cardamom: '#228B22',
+                        gold: '#FFD700'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #C41E3A 0%, #228B22 50%, #FFD700 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(196, 30, 58, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(196, 30, 58, 0.6); }
+        }
+        .product-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .step-number {
+            background: linear-gradient(135deg, #C41E3A, #228B22);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .benefit-icon {
+            background: linear-gradient(135deg, #FFD700, #228B22);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        @keyframes modalSlideIn {
+            from { transform: scale(0.8) translateY(-50px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #C41E3A;
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+            outline: none;
+        }
+        .cta-button {
+            background: linear-gradient(135deg, #C41E3A, #228B22);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(196, 30, 58, 0.3);
+        }
+        .priority-badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #8B4513;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="navbar fixed w-full top-0 z-50 py-4">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-pomegranate to-cardamom rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">SN</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Saffron Naturals</h1>
+                        <p class="text-sm text-gray-600">Premium Fruits & Spices Exporter</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#products" class="text-gray-700 hover:text-pomegranate font-semibold transition-colors">Products</a>
+                    <a href="#about" class="text-gray-700 hover:text-pomegranate font-semibold transition-colors">About Us</a>
+                    <a href="#process" class="text-gray-700 hover:text-pomegranate font-semibold transition-colors">Export Process</a>
+                    <a href="#contact" class="text-gray-700 hover:text-pomegranate font-semibold transition-colors">Contact</a>
+                    <button onclick="openLoginModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                        Login
+                    </button>
+                    <button onclick="openRegistrationModal()" class="cta-button pulse-glow">
+                        Get Started
+                    </button>
+                </div>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 bg-white z-40 transform translate-x-full transition-transform md:hidden">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pomegranate to-cardamom rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold">SN</span>
+                    </div>
+                    <span class="text-xl font-bold">Saffron Naturals</span>
+                </div>
+                <button onclick="toggleMobileMenu()" class="text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <a href="#products" class="block text-gray-700 hover:text-pomegranate font-semibold text-lg">Products</a>
+                <a href="#about" class="block text-gray-700 hover:text-pomegranate font-semibold text-lg">About Us</a>
+                <a href="#process" class="block text-gray-700 hover:text-pomegranate font-semibold text-lg">Export Process</a>
+                <a href="#contact" class="block text-gray-700 hover:text-pomegranate font-semibold text-lg">Contact</a>
+                <button onclick="openLoginModal()" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold">
+                    Login
+                </button>
+                <button onclick="openRegistrationModal()" class="w-full cta-button">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-24 pb-16 text-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <h1 class="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                        Premium
+                        <span class="text-gold">Fruits & Spices</span>
+                        Exporter
+                    </h1>
+                    <p class="text-xl mb-8 text-white/90 leading-relaxed">
+                        Welcome to Saffron Naturals - Your trusted partner for premium quality pomegranates, cardamom, 
+                        onions, chilies, grapes, apples, and dry fruits. Direct from Indian farms to global markets.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="openRegistrationModal()" class="cta-button text-lg px-8 py-4">
+                            🌟 Start Exporting
+                        </button>
+                        <button onclick="scrollToProducts()" class="bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-bold transition-all">
+                            🛍️ View Products
+                        </button>
+                    </div>
+                    <div class="mt-8 flex items-center space-x-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">15+</div>
+                            <div class="text-sm text-white/80">Years Experience</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">25+</div>
+                            <div class="text-sm text-white/80">Countries Export</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold">100%</div>
+                            <div class="text-sm text-white/80">Quality Assured</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-animation">
+                    <div class="relative">
+                        <div class="w-96 h-96 bg-white/10 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm">
+                            <div class="text-center">
+                                <div class="flex justify-center space-x-4 text-6xl mb-4">
+                                    <span>🍎</span>
+                                    <span>🌶️</span>
+                                </div>
+                                <div class="text-2xl font-bold">Premium Export</div>
+                                <div class="text-xl">Quality</div>
+                            </div>
+                        </div>
+                        <div class="absolute -top-4 -right-4 w-20 h-20 bg-gold rounded-full flex items-center justify-center">
+                            <span class="text-2xl">🏆</span>
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                            <span class="text-xl">🌍</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Why Choose Saffron Naturals?</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    We're your reliable export partner, connecting premium Indian produce with global markets.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center card-hover">
+                    <div class="benefit-icon mx-auto mb-4">🌱</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Farm Fresh Quality</h3>
+                    <p class="text-gray-600">Direct sourcing from premium farms ensuring freshness and quality at every step.</p>
+                </div>
+                <div class="text-center card-hover">
+                    <div class="benefit-icon mx-auto mb-4">🚢</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Global Export</h3>
+                    <p class="text-gray-600">Experienced in international trade with exports to 25+ countries worldwide.</p>
+                </div>
+                <div class="text-center card-hover">
+                    <div class="benefit-icon mx-auto mb-4">📋</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Complete Documentation</h3>
+                    <p class="text-gray-600">Full export documentation, certifications, and compliance handling.</p>
+                </div>
+                <div class="text-center card-hover">
+                    <div class="benefit-icon mx-auto mb-4">⚡</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Fast Processing</h3>
+                    <p class="text-gray-600">Quick order processing and efficient logistics for timely deliveries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Premium Export Products</h2>
+                <p class="text-xl text-gray-600">Fresh from Indian farms to your global markets</p>
+            </div>
+            
+            <!-- Priority Products -->
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold text-center text-gray-900 mb-8">🌟 Our Bestsellers</h3>
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Pomegranates -->
+                    <div class="product-card card-hover border-4 border-pomegranate/20">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="priority-badge">🏆 TOP SELLER</div>
+                            <div class="text-6xl">🍎</div>
+                        </div>
+                        <div class="text-center mb-6">
+                            <h3 class="text-3xl font-bold text-gray-900 mb-2">Premium Pomegranates</h3>
+                            <p class="text-gray-600">Fresh, juicy pomegranates with deep red color and sweet taste</p>
+                        </div>
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Variety:</span>
+                                <span class="font-semibold">Bhagwa, Arakta</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Size:</span>
+                                <span class="font-semibold text-pomegranate">Large (300g+)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Season:</span>
+                                <span class="font-semibold text-green-600">Oct - Feb</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Packaging:</span>
+                                <span class="font-semibold">5kg, 10kg Export Boxes</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Shelf Life:</span>
+                                <span class="font-semibold">45-60 days</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-pomegranate mb-2">$2.50 - $3.50/kg</div>
+                            <div class="text-sm text-gray-500 mb-4">FOB Price (Min Order: 1000kg)</div>
+                            <button onclick="requestQuote('pomegranates')" class="w-full bg-pomegranate hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition-colors">
+                                🚀 Request Export Quote
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cardamom -->
+                    <div class="product-card card-hover border-4 border-cardamom/20">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="priority-badge">🏆 TOP SELLER</div>
+                            <div class="text-6xl">🌿</div>
+                        </div>
+                        <div class="text-center mb-6">
+                            <h3 class="text-3xl font-bold text-gray-900 mb-2">Premium Cardamom</h3>
+                            <p class="text-gray-600">Aromatic green cardamom pods with intense flavor and fragrance</p>
+                        </div>
+                        <div class="space-y-3 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Type:</span>
+                                <span class="font-semibold">Green Cardamom</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Grade:</span>
+                                <span class="font-semibold text-cardamom">Export Quality</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Origin:</span>
+                                <span class="font-semibold text-green-600">Kerala, India</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Packaging:</span>
+                                <span class="font-semibold">25kg, 50kg Bags</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Moisture:</span>
+                                <span class="font-semibold">Max 12%</span>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-cardamom mb-2">$35 - $45/kg</div>
+                            <div class="text-sm text-gray-500 mb-4">FOB Price (Min Order: 100kg)</div>
+                            <button onclick="requestQuote('cardamom')" class="w-full bg-cardamom hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition-colors">
+                                🚀 Request Export Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Products -->
+            <div>
+                <h3 class="text-2xl font-bold text-center text-gray-900 mb-8">🌾 Other Premium Products</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Onions -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-2">🧅</div>
+                            <h4 class="text-lg font-bold text-gray-900">Fresh Onions</h4>
+                            <p class="text-sm text-gray-600">Red & White varieties</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-pomegranate">$0.40 - $0.80/kg</div>
+                            <button onclick="requestQuote('onions')" class="w-full mt-3 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Get Quote
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chilies -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-2">🌶️</div>
+                            <h4 class="text-lg font-bold text-gray-900">Red & Green Chilies</h4>
+                            <p class="text-sm text-gray-600">Fresh & Dried varieties</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-pomegranate">$1.20 - $2.50/kg</div>
+                            <button onclick="requestQuote('chilies')" class="w-full mt-3 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Get Quote
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Grapes -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-2">🍇</div>
+                            <h4 class="text-lg font-bold text-gray-900">Fresh Grapes</h4>
+                            <p class="text-sm text-gray-600">Green & Black varieties</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-pomegranate">$1.80 - $2.80/kg</div>
+                            <button onclick="requestQuote('grapes')" class="w-full mt-3 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Get Quote
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Apples -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg card-hover">
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-2">🍏</div>
+                            <h4 class="text-lg font-bold text-gray-900">Fresh Apples</h4>
+                            <p class="text-sm text-gray-600">Kashmir & Himachal varieties</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-pomegranate">$1.50 - $2.20/kg</div>
+                            <button onclick="requestQuote('apples')" class="w-full mt-3 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Get Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Export Process -->
+    <section id="process" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Export Process</h2>
+                <p class="text-xl text-gray-600">Simple steps to get premium Indian produce to your market</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="step-number mx-auto mb-4">1</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Inquiry & Quote</h3>
+                    <p class="text-gray-600">Share your requirements and get detailed export quotation</p>
+                </div>
+                <div class="text-center">
+                    <div class="step-number mx-auto mb-4">2</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Order Confirmation</h3>
+                    <p class="text-gray-600">Confirm order details, specifications, and payment terms</p>
+                </div>
+                <div class="text-center">
+                    <div class="step-number mx-auto mb-4">3</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Processing & Documentation</h3>
+                    <p class="text-gray-600">Quality processing, packaging, and export documentation</p>
+                </div>
+                <div class="text-center">
+                    <div class="step-number mx-auto mb-4">4</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Shipment & Delivery</h3>
+                    <p class="text-gray-600">Safe shipment with tracking until destination port</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us -->
+    <section id="about" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">About Saffron Naturals</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Saffron Naturals is a leading exporter of premium fruits, vegetables, and spices from India. 
+                        With over 15 years of experience, we specialize in pomegranates and cardamom exports, 
+                        serving global markets with quality and reliability.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm">✓</span>
+                            </div>
+                            <span class="text-gray-700">Direct partnerships with premium farms</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm">✓</span>
+                            </div>
+                            <span class="text-gray-700">Complete export documentation & compliance</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm">✓</span>
+                            </div>
+                            <span class="text-gray-700">Quality assurance at every step</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                <span class="text-white text-sm">✓</span>
+                            </div>
+                            <span class="text-gray-700">Reliable logistics and timely delivery</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                        <div class="text-3xl font-bold text-pomegranate mb-2">15+</div>
+                        <div class="text-gray-600">Years Experience</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                        <div class="text-3xl font-bold text-pomegranate mb-2">25+</div>
+                        <div class="text-gray-600">Countries Export</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                        <div class="text-3xl font-bold text-pomegranate mb-2">500+</div>
+                        <div class="text-gray-600">Happy Clients</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                        <div class="text-3xl font-bold text-pomegranate mb-2">100%</div>
+                        <div class="text-gray-600">Quality Guarantee</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">What Our Export Partners Say</h2>
+                <p class="text-xl text-gray-600">Trusted by importers worldwide</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="text-gold text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 mb-4 italic">
+                        "Excellent quality pomegranates! Saffron Naturals has been our reliable supplier for 3 years. 
+                        Their export documentation is always perfect."
+                    </p>
+                    <div class="font-semibold text-gray-900">- Ahmed Al Rashid</div>
+                    <div class="text-sm text-gray-500">Fresh Fruits Trading, UAE</div>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="text-gold text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 mb-4 italic">
+                        "Best cardamom quality we've imported from India. Consistent grade, proper packaging, 
+                        and timely shipments. Highly recommended!"
+                    </p>
+                    <div class="font-semibold text-gray-900">- Maria Rodriguez</div>
+                    <div class="text-sm text-gray-500">Spice Importers Ltd, Spain</div>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <div class="text-gold text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+                    <p class="text-gray-600 mb-4 italic">
+                        "Professional export service with competitive prices. Their pomegranates are always 
+                        fresh and meet our quality standards perfectly."
+                    </p>
+                    <div class="font-semibold text-gray-900">- James Wilson</div>
+                    <div class="text-sm text-gray-500">Global Produce Co, UK</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="hero-gradient py-16 text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-6">Ready to Start Importing Premium Products?</h2>
+            <p class="text-xl mb-8 text-white/90">
+                Join hundreds of satisfied importers worldwide. Get the best quality fruits and spices from India.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="openRegistrationModal()" class="cta-button text-lg px-8 py-4 bg-white text-pomegranate hover:bg-gray-100">
+                    🚀 Start Importing Today
+                </button>
+                <button onclick="openContactModal()" class="bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-bold transition-all">
+                    💬 Talk to Export Expert
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-pomegranate to-cardamom rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold">SN</span>
+                        </div>
+                        <span class="text-xl font-bold">Saffron Naturals</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Premium fruits and spices exporter from India, specializing in pomegranates and cardamom.
+                    </p>
+                    <div class="flex space-x-4">
+                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer">
+                            <span class="text-sm">f</span>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center cursor-pointer">
+                            <span class="text-sm">t</span>
+                        </div>
+                        <div class="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center cursor-pointer">
+                            <span class="text-sm">in</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Our Products</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">🍎 Premium Pomegranates</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">🌿 Green Cardamom</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">🧅 Fresh Onions</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">🌶️ Red & Green Chilies</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">🍇 Fresh Grapes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">🍏 Kashmir Apples</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Export Services</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Quality Assurance</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Export Documentation</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Custom Packaging</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Logistics Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Info</h3>
+                    <div class="space-y-3 text-gray-400">
+                        <div class="flex items-center space-x-2">
+                            <span>📧</span>
+                            <span>info@saffronnaturals.com</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>📞</span>
+                            <span>+91-9372383903</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>💬</span>
+                            <span>WhatsApp: +91-9372383903</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span>📍</span>
+                            <span>Mumbai, Maharashtra, India</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Saffron Naturals. All rights reserved. | Privacy Policy | Terms of Export</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">🚀 Start Importing</h2>
+                <button onclick="closeModal('registrationModal')" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="submitRegistration(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Company Name *</label>
+                        <input type="text" required class="form-input" placeholder="Enter your company name">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                            <input type="text" required class="form-input" placeholder="First name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                            <input type="text" required class="form-input" placeholder="Last name">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                        <input type="email" required class="form-input" placeholder="your@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                        <input type="tel" required class="form-input" placeholder="+1 (555) 123-4567">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Country *</label>
+                        <select required class="form-input">
+                            <option value="">Select your country</option>
+                            <option value="UAE">United Arab Emirates</option>
+                            <option value="USA">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Germany">Germany</option>
+                            <option value="France">France</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Business Type *</label>
+                        <select required class="form-input">
+                            <option value="">Select business type</option>
+                            <option value="Importer">Importer</option>
+                            <option value="Wholesaler">Wholesaler</option>
+                            <option value="Retailer">Retailer</option>
+                            <option value="Distributor">Distributor</option>
+                            <option value="Restaurant">Restaurant/Food Service</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Interested Products</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="pomegranates">
+                                <span>🍎 Premium Pomegranates</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="cardamom">
+                                <span>🌿 Green Cardamom</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="onions">
+                                <span>🧅 Fresh Onions</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="chilies">
+                                <span>🌶️ Red & Green Chilies</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="grapes">
+                                <span>🍇 Fresh Grapes</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" value="apples">
+                                <span>🍏 Kashmir Apples</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Import Volume (Approx.)</label>
+                        <select class="form-input">
+                            <option value="">Select volume</option>
+                            <option value="1-5">1-5 Tons</option>
+                            <option value="5-20">5-20 Tons</option>
+                            <option value="20-50">20-50 Tons</option>
+                            <option value="50+">50+ Tons</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Additional Information</label>
+                        <textarea class="form-input h-20" placeholder="Tell us about your import requirements, target markets, etc."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="w-full cta-button mt-6">
+                    🎉 Create Import Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">👋 Welcome Back</h2>
+                <button onclick="closeModal('loginModal')" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="submitLogin(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" required class="form-input" placeholder="your@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" required class="form-input" placeholder="Enter your password">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2">
+                            <span class="text-sm text-gray-600">Remember me</span>
+                        </label>
+                        <a href="#" class="text-sm text-pomegranate hover:underline">Forgot password?</a>
+                    </div>
+                </div>
+                <button type="submit" class="w-full cta-button mt-6">
+                    🔐 Sign In to Portal
+                </button>
+                <div class="text-center mt-4">
+                    <span class="text-gray-600">New to Saffron Naturals? </span>
+                    <button type="button" onclick="switchToRegistration()" class="text-pomegranate hover:underline font-semibold">
+                        Create account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">💬 Talk to Export Expert</h2>
+                <button onclick="closeModal('contactModal')" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <div class="text-center">
+                    <p class="text-gray-600 mb-6">Get in touch with our export team for personalized assistance</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="initiateCall()" class="p-4 bg-blue-50 rounded-lg text-center hover:bg-blue-100 transition-colors">
+                        <div class="text-2xl mb-2">📞</div>
+                        <div class="font-semibold">Call Us</div>
+                        <div class="text-sm text-gray-600">+91-9372383903</div>
+                    </button>
+                    <button onclick="openWhatsApp()" class="p-4 bg-green-50 rounded-lg text-center hover:bg-green-100 transition-colors">
+                        <div class="text-2xl mb-2">💬</div>
+                        <div class="font-semibold">WhatsApp</div>
+                        <div class="text-sm text-gray-600">+91-9372383903</div>
+                    </button>
+                </div>
+                <form onsubmit="submitContactForm(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+                            <input type="text" required class="form-input" placeholder="Enter your name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" required class="form-input" placeholder="your@email.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Product Interest</label>
+                            <select class="form-input">
+                                <option value="">Select product</option>
+                                <option value="pomegranates">🍎 Pomegranates</option>
+                                <option value="cardamom">🌿 Cardamom</option>
+                                <option value="onions">🧅 Onions</option>
+                                <option value="chilies">🌶️ Chilies</option>
+                                <option value="grapes">🍇 Grapes</option>
+                                <option value="apples">🍏 Apples</option>
+                                <option value="multiple">Multiple Products</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                            <textarea class="form-input h-24" placeholder="Tell us about your import requirements..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full cta-button mt-6">
+                        📧 Send Inquiry
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation Functions
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('translate-x-full');
+        }
+
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Modal Functions
+        function openRegistrationModal() {
+            document.getElementById('registrationModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchToRegistration() {
+            closeModal('loginModal');
+            setTimeout(() => openRegistrationModal(), 100);
+        }
+
+        // Form Submissions
+        function submitRegistration(event) {
+            event.preventDefault();
+            alert('🎉 REGISTRATION SUCCESSFUL!\n\nWelcome to Saffron Naturals!\n\n✅ Import account created successfully\n✅ Verification email sent\n✅ Welcome package on the way\n\nOur export team will contact you within 24 hours to:\n• Verify your import requirements\n• Provide detailed product catalogs\n• Discuss pricing and terms\n• Schedule a welcome call\n\nThank you for choosing Saffron Naturals as your export partner!');
+            closeModal('registrationModal');
+        }
+
+        function submitLogin(event) {
+            event.preventDefault();
+            alert('🔐 LOGIN SUCCESSFUL!\n\nWelcome back to Saffron Naturals!\n\n✅ Authentication successful\n✅ Account verified\n✅ Import portal loading...\n\nRedirecting to your client dashboard...\n\nYou can now:\n• View latest product catalogs\n• Check current pricing\n• Track your orders\n• Access export documents');
+            closeModal('loginModal');
+            
+            // Simulate redirect to client portal after successful login
+            setTimeout(() => {
+                window.location.href = 'client-portal.html'; // This would redirect to the client portal page
+            }, 2000);
+        }
+
+        function submitContactForm(event) {
+            event.preventDefault();
+            alert('📧 INQUIRY SENT!\n\nThank you for your interest!\n\n✅ Export inquiry received\n✅ Ticket created: #SN-EXP-2024-001\n✅ Auto-reply sent to your email\n\nOur export team will respond within:\n• Email: 2-4 hours\n• Phone call: Same day\n• WhatsApp: 5-10 minutes\n\nWe will provide:\n• Detailed product specifications\n• Current export pricing\n• Shipping terms\n• Sample availability');
+            closeModal('contactModal');
+        }
+
+        // Product Functions
+        function requestQuote(product) {
+            const productNames = {
+                'pomegranates': 'Premium Pomegranates',
+                'cardamom': 'Green Cardamom',
+                'onions': 'Fresh Onions',
+                'chilies': 'Red & Green Chilies',
+                'grapes': 'Fresh Grapes',
+                'apples': 'Kashmir Apples'
+            };
+            
+            alert(`💰 EXPORT QUOTE REQUEST - ${productNames[product]}\n\nQuote request form will include:\n\n📦 Product: ${productNames[product]}\n📊 Required quantity\n📅 Delivery timeline\n📍 Destination port\n💼 Import license details\n🚢 Shipping terms (FOB/CIF)\n\nOur export team will send you a detailed quotation within 4 hours!\n\nQuote form opening...`);
+        }
+
+        // Communication Functions
+        function initiateCall() {
+            alert('📞 CONNECTING TO EXPORT TEAM\n\nCalling Saffron Naturals Export Department...\n\n👤 You will speak with: Export Manager\n📞 Direct line: +91-9372383903\n🌍 Languages: English, Hindi\n⏰ Available: 9 AM - 7 PM IST\n🗓️ Monday to Saturday\n\nCall connecting...');
+        }
+
+        function openWhatsApp() {
+            alert('💬 WHATSAPP EXPORT SUPPORT\n\nConnecting to WhatsApp Business...\n\n👤 Saffron Naturals Export Team\n📱 WhatsApp: +91-9372383903\n⚡ Response time: < 10 minutes\n🌍 Available: 9 AM - 9 PM IST\n📋 Services: Product info, quotes, order status\n\nWhatsApp chat opening...');
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    // Close mobile menu if open
+                    document.getElementById('mobileMenu').classList.add('translate-x-full');
+                }
+            });
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🌟 Welcome to Saffron Naturals Export Portal!');
+            
+            // Add scroll effect to navbar
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 100) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                } else {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97432ce3b27e85e5',t:'MTc1NjA0MTkyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
