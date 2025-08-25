@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Farm Feed - AI Monitoring | Saffron Naturals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwudAzDXGv1yE8Hwavw78RYknmnWKECJ0&libraries=places"></script>
+    <style>
+        /* Futuristic Background */
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            background-size: 400% 400%;
+            animation: cosmicBackground 20s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        @keyframes cosmicBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated Stars Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #ddd, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: sparkle 10s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        @keyframes sparkle {
+            from { transform: translateX(0); }
+            to { transform: translateX(-200px); }
+        }
+
+        /* Futuristic Header */
+        .ai-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Holographic Cards */
+        .data-card {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            animation: hologram 4s infinite;
+        }
+
+        @keyframes hologram {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Animated Pomegranate */
+        .pomegranate-container {
+            position: fixed;
+            top: 20%;
+            right: 5%;
+            width: 200px;
+            height: 200px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .pomegranate {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #d63031, #74b9ff);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            animation: float 6s ease-in-out infinite, rotate 20s linear infinite;
+            box-shadow: 0 0 50px rgba(255, 107, 107, 0.5);
+        }
+
+        .pomegranate::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 20px;
+            background: #00b894;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 184, 148, 0.7);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pomegranate Cutting Animation */
+        .pomegranate-pieces {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .piece {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, #ff6b6b, #d63031);
+            border-radius: 50%;
+            animation: explode 2s ease-out forwards;
+        }
+
+        .piece:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
+        .piece:nth-child(2) { top: 40%; left: 60%; animation-delay: 0.1s; }
+        .piece:nth-child(3) { top: 60%; left: 20%; animation-delay: 0.2s; }
+        .piece:nth-child(4) { top: 30%; left: 70%; animation-delay: 0.3s; }
+        .piece:nth-child(5) { top: 70%; left: 50%; animation-delay: 0.4s; }
+        .piece:nth-child(6) { top: 50%; left: 10%; animation-delay: 0.5s; }
+
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: scale(1) translate(0, 0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.3) translate(var(--dx, 100px), var(--dy, 100px));
+            }
+        }
+
+        .piece:nth-child(1) { --dx: -80px; --dy: -60px; }
+        .piece:nth-child(2) { --dx: 90px; --dy: -40px; }
+        .piece:nth-child(3) { --dx: -70px; --dy: 80px; }
+        .piece:nth-child(4) { --dx: 100px; --dy: 70px; }
+        .piece:nth-child(5) { --dx: 60px; --dy: 90px; }
+        .piece:nth-child(6) { --dx: -90px; --dy: 50px; }
+
+        /* Advanced Pulse Effects */
+        .pulse-dot {
+            animation: advancedPulse 2s infinite;
+        }
+
+        @keyframes advancedPulse {
+            0% { 
+                transform: scale(1); 
+                opacity: 1; 
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            70% { 
+                transform: scale(1.2); 
+                opacity: 0.8; 
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+            100% { 
+                transform: scale(1); 
+                opacity: 1; 
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* AI Scanning Effect */
+        .ai-scan {
+            animation: aiScan 3s infinite linear;
+            filter: drop-shadow(0 0 10px #00d4ff);
+        }
+
+        @keyframes aiScan {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.1); }
+            50% { transform: rotate(180deg) scale(1); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Futuristic Map Container */
+        .map-container {
+            height: 70vh;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        .map-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Advanced AI Indicator */
+        .ai-indicator {
+            background: linear-gradient(45deg, #00d4ff, #090979, #ff006e, #8338ec);
+            background-size: 400% 400%;
+            animation: aiGradient 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-indicator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: aiPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes aiGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes aiPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Neon Text Effects */
+        .neon-text {
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #00d4ff,
+                0 0 20px #00d4ff,
+                0 0 35px #00d4ff,
+                0 0 40px #00d4ff;
+            animation: neonFlicker 2s infinite alternate;
+        }
+
+        @keyframes neonFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Holographic Status Indicators */
+        .status-healthy { 
+            color: #10b981; 
+            text-shadow: 0 0 10px #10b981;
+            animation: healthyGlow 2s ease-in-out infinite;
+        }
+        .status-warning { 
+            color: #f59e0b; 
+            text-shadow: 0 0 10px #f59e0b;
+            animation: warningGlow 1s ease-in-out infinite;
+        }
+        .status-critical { 
+            color: #ef4444; 
+            text-shadow: 0 0 10px #ef4444;
+            animation: criticalGlow 0.5s ease-in-out infinite;
+        }
+
+        @keyframes healthyGlow {
+            0%, 100% { text-shadow: 0 0 10px #10b981; }
+            50% { text-shadow: 0 0 20px #10b981, 0 0 30px #10b981; }
+        }
+
+        @keyframes warningGlow {
+            0%, 100% { text-shadow: 0 0 10px #f59e0b; }
+            50% { text-shadow: 0 0 20px #f59e0b, 0 0 30px #f59e0b; }
+        }
+
+        @keyframes criticalGlow {
+            0%, 100% { text-shadow: 0 0 10px #ef4444; }
+            50% { text-shadow: 0 0 20px #ef4444, 0 0 30px #ef4444; }
+        }
+
+        /* Advanced Button Hover Effects */
+        .futuristic-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .futuristic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .futuristic-btn:hover::before {
+            left: 100%;
+        }
+
+        .futuristic-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Advanced Particle System */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: particleFloat 15s infinite linear;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+                filter: hue-rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                filter: hue-rotate(180deg);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(200px) rotate(360deg);
+                opacity: 0;
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        /* Robotics Scanning Lines */
+        @keyframes scanLine {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Advanced Holographic Grid */
+        .holographic-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Futuristic Data Streams */
+        .data-stream {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #00d4ff, transparent);
+            animation: dataStream 3s infinite linear;
+        }
+
+        @keyframes dataStream {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px));
+                opacity: 0;
+            }
+        }
+
+        /* Robotic Loading Bars */
+        .robotic-loader {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 212, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .robotic-loader::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            animation: roboticLoad 2s infinite;
+        }
+
+        @keyframes roboticLoad {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Quantum Dots */
+        .quantum-dot {
+            width: 8px;
+            height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+            position: absolute;
+            animation: quantumFloat 4s ease-in-out infinite;
+            box-shadow: 0 0 20px #00d4ff;
+        }
+
+        @keyframes quantumFloat {
+            0%, 100% { 
+                transform: translateY(0) scale(1);
+                opacity: 0.7;
+            }
+            50% { 
+                transform: translateY(-20px) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Neural Network Lines */
+        .neural-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #8338ec, transparent);
+            animation: neuralPulse 3s infinite;
+        }
+
+        @keyframes neuralPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .pomegranate-container {
+                width: 120px;
+                height: 120px;
+                top: 10%;
+                right: 2%;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0c0c0c, #1a1a2e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgba(0, 212, 255, 0.3);
+            border-top: 3px solid #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Advanced Loading Screen -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="text-center">
+            <div class="loading-spinner mb-6"></div>
+            <div class="neon-text text-2xl mb-4">🤖 Initializing AI Farm Network...</div>
+            <div class="robotic-loader mb-4"></div>
+            <div class="text-cyan-300 text-sm mb-6" id="loadingStatus">Connecting to satellite network...</div>
+            
+            <!-- Quantum Dots -->
+            <div class="relative w-32 h-16 mx-auto">
+                <div class="quantum-dot" style="left: 10%; animation-delay: 0s;"></div>
+                <div class="quantum-dot" style="left: 30%; animation-delay: 0.5s;"></div>
+                <div class="quantum-dot" style="left: 50%; animation-delay: 1s;"></div>
+                <div class="quantum-dot" style="left: 70%; animation-delay: 1.5s;"></div>
+                <div class="quantum-dot" style="left: 90%; animation-delay: 2s;"></div>
+            </div>
+            
+            <!-- Neural Network Lines -->
+            <div class="neural-line" style="width: 200px; left: 50%; transform: translateX(-50%); top: 60%;"></div>
+            <div class="neural-line" style="width: 150px; left: 50%; transform: translateX(-50%); top: 65%; animation-delay: 1s;"></div>
+        </div>
+    </div>
+
+    <!-- Advanced Background Systems -->
+    <div class="holographic-grid"></div>
+    <div class="particles" id="particles"></div>
+    
+    <!-- Quantum Data Streams -->
+    <div class="data-stream" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="data-stream" style="left: 30%; animation-delay: 1s;"></div>
+    <div class="data-stream" style="left: 50%; animation-delay: 2s;"></div>
+    <div class="data-stream" style="left: 70%; animation-delay: 0.5s;"></div>
+    <div class="data-stream" style="left: 90%; animation-delay: 1.5s;"></div>
+
+    <!-- Animated Pomegranate -->
+    <div class="pomegranate-container" id="pomegranateContainer">
+        <div class="pomegranate" id="pomegranate">
+            <div class="pomegranate-pieces" id="pomegranatepieces">
+                <div class="piece"></div>
+                <div class="piece"></div>
+                <div class="piece"></div>
+                <div class="piece"></div>
+                <div class="piece"></div>
+                <div class="piece"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <div class="ai-gradient py-6 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button onclick="goBack()" class="futuristic-btn px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2">
+                        <span>←</span>
+                        <span>Back to Dashboard</span>
+                    </button>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 ai-indicator rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold ai-scan">🤖</span>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-bold neon-text">AI Farm Monitoring</h1>
+                            <p class="text-white/80">Real-time Intelligence • Live Feed Active</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white/20 px-4 py-2 rounded-lg">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-green-400 rounded-full pulse-dot"></div>
+                            <span class="text-sm">18 Farms Online</span>
+                        </div>
+                    </div>
+                    <div class="bg-white/20 px-4 py-2 rounded-lg">
+                        <div class="text-sm">
+                            <div>AI Confidence: <span class="font-bold text-green-300">98.7%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Map Section -->
+            <div class="lg:col-span-2">
+                <div class="data-card rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-900">🌍 Live Farm Network</h2>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></div>
+                            <span class="text-sm text-gray-600">Real-time Updates</span>
+                        </div>
+                    </div>
+                    <div id="map" class="map-container"></div>
+                </div>
+            </div>
+
+            <!-- Farm Details Panel -->
+            <div class="lg:col-span-1">
+                <div class="data-card rounded-2xl p-6 farm-detail-panel">
+                    <div id="farmDetails">
+                        <div class="text-center py-8">
+                            <div class="text-6xl mb-4">🎯</div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Select a Farm</h3>
+                            <p class="text-gray-600">Click on any farm marker to view detailed AI analysis</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Insights Dashboard -->
+        <div class="mt-8 grid md:grid-cols-4 gap-6">
+            <div class="data-card rounded-xl p-6 text-center">
+                <div class="text-3xl mb-2">🌡️</div>
+                <div class="text-2xl font-bold text-gray-900" id="avgTemp">28.5°C</div>
+                <div class="text-sm text-gray-600">Avg Temperature</div>
+            </div>
+            <div class="data-card rounded-xl p-6 text-center">
+                <div class="text-3xl mb-2">💧</div>
+                <div class="text-2xl font-bold text-gray-900" id="avgHumidity">67%</div>
+                <div class="text-sm text-gray-600">Avg Humidity</div>
+            </div>
+            <div class="data-card rounded-xl p-6 text-center">
+                <div class="text-3xl mb-2">🌱</div>
+                <div class="text-2xl font-bold text-green-600" id="healthyFarms">16/18</div>
+                <div class="text-sm text-gray-600">Healthy Farms</div>
+            </div>
+            <div class="data-card rounded-xl p-6 text-center">
+                <div class="text-3xl mb-2">🚨</div>
+                <div class="text-2xl font-bold text-yellow-600" id="alerts">2</div>
+                <div class="text-sm text-gray-600">Active Alerts</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // 🚀 IMMEDIATE INITIALIZATION - NO DELAYS
+        let isSystemReady = false;
+        
+        // Farm data with detailed information
+        const farmData = [
+            // Rajasthan Farms
+            {
+                id: 1,
+                name: "Jeewana Organic Farm",
+                location: { lat: 25.1204, lng: 72.1234 },
+                state: "Rajasthan",
+                farmer: "Ramesh Kumar Sharma",
+                contact: "+91-9876543210",
+                crops: ["Pomegranate", "Cumin", "Coriander"],
+                area: "45 acres",
+                temperature: 32.5,
+                humidity: 45,
+                soilMoisture: 78,
+                cropHealth: 95,
+                status: "healthy",
+                aiInsights: "Optimal growing conditions. Harvest predicted in 15 days.",
+                lastUpdate: "2 mins ago",
+                weatherCondition: "sunny",
+                irrigation: "Active",
+                pestAlert: false,
+                yieldPrediction: "125% of expected"
+            },
+            {
+                id: 2,
+                name: "Bhinmal Spice Gardens",
+                location: { lat: 25.0017, lng: 72.2627 },
+                state: "Rajasthan",
+                farmer: "Suresh Patel",
+                contact: "+91-9876543211",
+                crops: ["Red Chili", "Turmeric", "Fenugreek"],
+                area: "38 acres",
+                temperature: 31.8,
+                humidity: 52,
+                soilMoisture: 65,
+                cropHealth: 88,
+                status: "warning",
+                aiInsights: "Slight water stress detected. Irrigation recommended.",
+                lastUpdate: "5 mins ago",
+                weatherCondition: "partly-cloudy",
+                irrigation: "Scheduled",
+                pestAlert: true,
+                yieldPrediction: "110% of expected"
+            },
+            {
+                id: 3,
+                name: "Jalore Premium Farms",
+                location: { lat: 25.3467, lng: 72.6347 },
+                state: "Rajasthan",
+                farmer: "Mohan Singh Rajput",
+                contact: "+91-9876543212",
+                crops: ["Pomegranate", "Cumin", "Mustard"],
+                area: "52 acres",
+                temperature: 33.2,
+                humidity: 48,
+                soilMoisture: 82,
+                cropHealth: 92,
+                status: "healthy",
+                aiInsights: "Excellent growth rate. Premium quality expected.",
+                lastUpdate: "1 min ago",
+                weatherCondition: "sunny",
+                irrigation: "Optimal",
+                pestAlert: false,
+                yieldPrediction: "135% of expected"
+            },
+            {
+                id: 4,
+                name: "Bagora Organic Estate",
+                location: { lat: 24.6208, lng: 73.7250 },
+                state: "Rajasthan",
+                farmer: "Lakshmi Devi",
+                contact: "+91-9876543213",
+                crops: ["Pomegranate", "Black Mustard", "Coriander"],
+                area: "41 acres",
+                temperature: 30.5,
+                humidity: 55,
+                soilMoisture: 75,
+                cropHealth: 90,
+                status: "healthy",
+                aiInsights: "Organic certification maintained. High quality produce.",
+                lastUpdate: "3 mins ago",
+                weatherCondition: "cloudy",
+                irrigation: "Active",
+                pestAlert: false,
+                yieldPrediction: "120% of expected"
+            },
+            {
+                id: 5,
+                name: "Sanchore Agri Hub",
+                location: { lat: 24.7544, lng: 71.7764 },
+                state: "Rajasthan",
+                farmer: "Vijay Kumar Jain",
+                contact: "+91-9876543214",
+                crops: ["Cumin", "Fennel", "Ajwain"],
+                area: "35 acres",
+                temperature: 32.8,
+                humidity: 43,
+                soilMoisture: 68,
+                cropHealth: 85,
+                status: "warning",
+                aiInsights: "Low humidity affecting spice oil content. Misting recommended.",
+                lastUpdate: "4 mins ago",
+                weatherCondition: "sunny",
+                irrigation: "Scheduled",
+                pestAlert: false,
+                yieldPrediction: "105% of expected"
+            },
+
+            // Maharashtra Farms
+            {
+                id: 6,
+                name: "Nashik Valley Vineyards",
+                location: { lat: 19.9975, lng: 73.7898 },
+                state: "Maharashtra",
+                farmer: "Prakash Deshmukh",
+                contact: "+91-9876543215",
+                crops: ["Pomegranate", "Grapes", "Onion"],
+                area: "65 acres",
+                temperature: 28.5,
+                humidity: 72,
+                soilMoisture: 85,
+                cropHealth: 94,
+                status: "healthy",
+                aiInsights: "Perfect conditions for premium pomegranate production.",
+                lastUpdate: "1 min ago",
+                weatherCondition: "partly-cloudy",
+                irrigation: "Drip System Active",
+                pestAlert: false,
+                yieldPrediction: "140% of expected"
+            },
+            {
+                id: 7,
+                name: "Solapur Organic Fields",
+                location: { lat: 17.6599, lng: 75.9064 },
+                state: "Maharashtra",
+                farmer: "Sunita Patil",
+                contact: "+91-9876543216",
+                crops: ["Turmeric", "Pomegranate", "Cotton"],
+                area: "48 acres",
+                temperature: 29.2,
+                humidity: 68,
+                soilMoisture: 78,
+                cropHealth: 91,
+                status: "healthy",
+                aiInsights: "Turmeric showing excellent curcumin levels.",
+                lastUpdate: "2 mins ago",
+                weatherCondition: "sunny",
+                irrigation: "Active",
+                pestAlert: false,
+                yieldPrediction: "128% of expected"
+            },
+            {
+                id: 8,
+                name: "Daund Premium Produce",
+                location: { lat: 18.4648, lng: 74.5814 },
+                state: "Maharashtra",
+                farmer: "Rajesh Bhosale",
+                contact: "+91-9876543217",
+                crops: ["Pomegranate", "Grapes", "Sugarcane"],
+                area: "55 acres",
+                temperature: 27.8,
+                humidity: 75,
+                soilMoisture: 88,
+                cropHealth: 96,
+                status: "healthy",
+                aiInsights: "Exceptional fruit quality. Export grade confirmed.",
+                lastUpdate: "1 min ago",
+                weatherCondition: "cloudy",
+                irrigation: "Precision System",
+                pestAlert: false,
+                yieldPrediction: "145% of expected"
+            },
+
+            // Karnataka Farms
+            {
+                id: 9,
+                name: "Bangalore Hills Plantation",
+                location: { lat: 12.9716, lng: 77.5946 },
+                state: "Karnataka",
+                farmer: "Ravi Gowda",
+                contact: "+91-9876543218",
+                crops: ["Coffee", "Cardamom", "Black Pepper"],
+                area: "42 acres",
+                temperature: 24.5,
+                humidity: 82,
+                soilMoisture: 92,
+                cropHealth: 93,
+                status: "healthy",
+                aiInsights: "Ideal climate for premium coffee and spice production.",
+                lastUpdate: "3 mins ago",
+                weatherCondition: "rainy",
+                irrigation: "Natural + Supplemental",
+                pestAlert: false,
+                yieldPrediction: "132% of expected"
+            },
+            {
+                id: 10,
+                name: "Mysore Spice Estate",
+                location: { lat: 12.2958, lng: 76.6394 },
+                state: "Karnataka",
+                farmer: "Kavitha Rao",
+                contact: "+91-9876543219",
+                crops: ["Cardamom", "Black Pepper", "Vanilla"],
+                area: "38 acres",
+                temperature: 23.8,
+                humidity: 85,
+                soilMoisture: 89,
+                cropHealth: 97,
+                status: "healthy",
+                aiInsights: "Premium spice quality detected. High market value expected.",
+                lastUpdate: "2 mins ago",
+                weatherCondition: "misty",
+                irrigation: "Micro-sprinkler",
+                pestAlert: false,
+                yieldPrediction: "150% of expected"
+            },
+            {
+                id: 11,
+                name: "Coorg Coffee & Spices",
+                location: { lat: 12.3375, lng: 75.8069 },
+                state: "Karnataka",
+                farmer: "Suresh Kodava",
+                contact: "+91-9876543220",
+                crops: ["Coffee", "Cardamom", "Cinnamon"],
+                area: "60 acres",
+                temperature: 22.5,
+                humidity: 88,
+                soilMoisture: 94,
+                cropHealth: 95,
+                status: "healthy",
+                aiInsights: "Perfect monsoon conditions. Exceptional aroma development.",
+                lastUpdate: "1 min ago",
+                weatherCondition: "rainy",
+                irrigation: "Rainfall Dependent",
+                pestAlert: false,
+                yieldPrediction: "142% of expected"
+            },
+
+            // Kerala Farms
+            {
+                id: 12,
+                name: "Munnar Spice Gardens",
+                location: { lat: 10.0889, lng: 77.0595 },
+                state: "Kerala",
+                farmer: "Thomas Mathew",
+                contact: "+91-9876543221",
+                crops: ["Cardamom", "Tea", "Black Pepper"],
+                area: "45 acres",
+                temperature: 20.5,
+                humidity: 90,
+                soilMoisture: 96,
+                cropHealth: 98,
+                status: "healthy",
+                aiInsights: "World-class cardamom quality. Premium export grade.",
+                lastUpdate: "1 min ago",
+                weatherCondition: "misty",
+                irrigation: "Natural Moisture",
+                pestAlert: false,
+                yieldPrediction: "155% of expected"
+            },
+            {
+                id: 13,
+                name: "Wayanad Organic Spices",
+                location: { lat: 11.6854, lng: 76.1320 },
+                state: "Kerala",
+                farmer: "Priya Nair",
+                contact: "+91-9876543222",
+                crops: ["Black Pepper", "Cardamom", "Ginger"],
+                area: "35 acres",
+                temperature: 21.8,
+                humidity: 87,
+                soilMoisture: 91,
+                cropHealth: 94,
+                status: "healthy",
+                aiInsights: "Organic certification maintained. High piperine content in pepper.",
+                lastUpdate: "2 mins ago",
+                weatherCondition: "cloudy",
+                irrigation: "Drip + Natural",
+                pestAlert: false,
+                yieldPrediction: "138% of expected"
+            },
+            {
+                id: 14,
+                name: "Idukki Hills Plantation",
+                location: { lat: 9.8901, lng: 76.9635 },
+                state: "Kerala",
+                farmer: "Jose Sebastian",
+                contact: "+91-9876543223",
+                crops: ["Cardamom", "Cinnamon", "Cloves"],
+                area: "50 acres",
+                temperature: 19.5,
+                humidity: 92,
+                soilMoisture: 98,
+                cropHealth: 96,
+                status: "healthy",
+                aiInsights: "Exceptional cardamom pods. Premium export quality confirmed.",
+                lastUpdate: "1 min ago",
+                weatherCondition: "rainy",
+                irrigation: "Natural",
+                pestAlert: false,
+                yieldPrediction: "148% of expected"
+            },
+            {
+                id: 15,
+                name: "Kottayam Spice Valley",
+                location: { lat: 9.5916, lng: 76.5222 },
+                state: "Kerala",
+                farmer: "Radhika Pillai",
+                contact: "+91-9876543224",
+                crops: ["Black Pepper", "Nutmeg", "Cardamom"],
+                area: "40 acres",
+                temperature: 22.2,
+                humidity: 89,
+                soilMoisture: 93,
+                cropHealth: 92,
+                status: "healthy",
+                aiInsights: "High essential oil content detected. Premium spice quality.",
+                lastUpdate: "3 mins ago",
+                weatherCondition: "partly-cloudy",
+                irrigation: "Smart System",
+                pestAlert: false,
+                yieldPrediction: "135% of expected"
+            },
+
+            // Additional farms for diversity
+            {
+                id: 16,
+                name: "Andhra Spice Hub",
+                location: { lat: 15.9129, lng: 79.7400 },
+                state: "Andhra Pradesh",
+                farmer: "Venkat Reddy",
+                contact: "+91-9876543225",
+                crops: ["Red Chili", "Turmeric", "Coriander"],
+                area: "55 acres",
+                temperature: 31.5,
+                humidity: 58,
+                soilMoisture: 72,
+                cropHealth: 89,
+                status: "healthy",
+                aiInsights: "High capsaicin levels in chilies. Export quality maintained.",
+                lastUpdate: "4 mins ago",
+                weatherCondition: "sunny",
+                irrigation: "Scheduled",
+                pestAlert: false,
+                yieldPrediction: "125% of expected"
+            },
+            {
+                id: 17,
+                name: "Tamil Nadu Spice Estate",
+                location: { lat: 11.1271, lng: 78.6569 },
+                state: "Tamil Nadu",
+                farmer: "Murugan Selvam",
+                contact: "+91-9876543226",
+                crops: ["Cardamom", "Cinnamon", "Cloves"],
+                area: "43 acres",
+                temperature: 26.8,
+                humidity: 78,
+                soilMoisture: 84,
+                cropHealth: 91,
+                status: "healthy",
+                aiInsights: "Optimal spice oil development. Premium grade confirmed.",
+                lastUpdate: "2 mins ago",
+                weatherCondition: "partly-cloudy",
+                irrigation: "Micro-irrigation",
+                pestAlert: false,
+                yieldPrediction: "130% of expected"
+            },
+            {
+                id: 18,
+                name: "Gujarat Organic Fields",
+                location: { lat: 23.0225, lng: 72.5714 },
+                state: "Gujarat",
+                farmer: "Kiran Patel",
+                contact: "+91-9876543227",
+                crops: ["Cumin", "Fennel", "Mustard"],
+                area: "47 acres",
+                temperature: 33.8,
+                humidity: 41,
+                soilMoisture: 63,
+                cropHealth: 86,
+                status: "warning",
+                aiInsights: "Dry conditions affecting growth. Increased irrigation needed.",
+                lastUpdate: "6 mins ago",
+                weatherCondition: "sunny",
+                irrigation: "Emergency Mode",
+                pestAlert: true,
+                yieldPrediction: "95% of expected"
+            }
+        ];
+
+        let map;
+        let markers = [];
+
+        // Initialize Google Map
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 6,
+                center: { lat: 20.5937, lng: 78.9629 }, // Center of India
+                styles: [
+                    {
+                        "featureType": "all",
+                        "elementType": "geometry.fill",
+                        "stylers": [{"weight": "2.00"}]
+                    },
+                    {
+                        "featureType": "all",
+                        "elementType": "geometry.stroke",
+                        "stylers": [{"color": "#9c9c9c"}]
+                    },
+                    {
+                        "featureType": "all",
+                        "elementType": "labels.text",
+                        "stylers": [{"visibility": "on"}]
+                    }
+                ]
+            });
+
+            // Add farm markers
+            farmData.forEach(farm => {
+                const marker = new google.maps.Marker({
+                    position: farm.location,
+                    map: map,
+                    title: farm.name,
+                    icon: {
+                        url: getMarkerIcon(farm.status),
+                        scaledSize: new google.maps.Size(40, 40)
+                    }
+                });
+
+                marker.addListener('click', () => {
+                    showFarmDetails(farm);
+                });
+
+                markers.push(marker);
+            });
+        }
+
+        // Get marker icon based on farm status
+        function getMarkerIcon(status) {
+            const icons = {
+                healthy: 'data:image/svg+xml;base64,' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="18" fill="#10b981" stroke="#fff" stroke-width="2"/>
+                        <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">🌱</text>
+                    </svg>
+                `),
+                warning: 'data:image/svg+xml;base64,' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="18" fill="#f59e0b" stroke="#fff" stroke-width="2"/>
+                        <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">⚠️</text>
+                    </svg>
+                `),
+                critical: 'data:image/svg+xml;base64=' + btoa(`
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="18" fill="#ef4444" stroke="#fff" stroke-width="2"/>
+                        <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">🚨</text>
+                    </svg>
+                `)
+            };
+            return icons[status] || icons.healthy;
+        }
+
+        // Show detailed farm information
+        function showFarmDetails(farm) {
+            const weatherIcons = {
+                sunny: '☀️',
+                'partly-cloudy': '⛅',
+                cloudy: '☁️',
+                rainy: '🌧️',
+                misty: '🌫️'
+            };
+
+            const statusColors = {
+                healthy: 'text-green-600',
+                warning: 'text-yellow-600',
+                critical: 'text-red-600'
+            };
+
+            const detailsHTML = `
+                <div class="space-y-6">
+                    <!-- Farm Header -->
+                    <div class="text-center border-b border-gray-200 pb-4">
+                        <div class="text-4xl mb-2">${weatherIcons[farm.weatherCondition] || '🌱'}</div>
+                        <h3 class="text-2xl font-bold text-gray-900">${farm.name}</h3>
+                        <p class="text-gray-600">${farm.state} • ${farm.area}</p>
+                        <div class="mt-2">
+                            <span class="px-3 py-1 rounded-full text-sm font-semibold ${statusColors[farm.status]} bg-gray-100">
+                                ${farm.status.toUpperCase()}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Farmer Info -->
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-900 mb-2">👨‍🌾 Farm Owner</h4>
+                        <p class="text-gray-800 font-medium">${farm.farmer}</p>
+                        <p class="text-gray-600 text-sm">${farm.contact}</p>
+                    </div>
+
+                    <!-- Crops -->
+                    <div>
+                        <h4 class="font-semibold text-gray-900 mb-2">🌾 Crops Grown</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${farm.crops.map(crop => `
+                                <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">${crop}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Real-time Data -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-red-600">${farm.temperature}°C</div>
+                            <div class="text-xs text-gray-600">Temperature</div>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-blue-600">${farm.humidity}%</div>
+                            <div class="text-xs text-gray-600">Humidity</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-green-600">${farm.soilMoisture}%</div>
+                            <div class="text-xs text-gray-600">Soil Moisture</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-purple-600">${farm.cropHealth}%</div>
+                            <div class="text-xs text-gray-600">Crop Health</div>
+                        </div>
+                    </div>
+
+                    <!-- AI Insights -->
+                    <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-900 mb-2 flex items-center">
+                            🤖 AI Analysis
+                        </h4>
+                        <p class="text-gray-700 text-sm">${farm.aiInsights}</p>
+                        <div class="mt-2 text-xs text-gray-500">
+                            Last updated: ${farm.lastUpdate}
+                        </div>
+                    </div>
+
+                    <!-- Status Details -->
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">💧 Irrigation:</span>
+                            <span class="font-medium text-gray-900">${farm.irrigation}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">🐛 Pest Alert:</span>
+                            <span class="font-medium ${farm.pestAlert ? 'text-red-600' : 'text-green-600'}">
+                                ${farm.pestAlert ? 'Active' : 'None'}
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">📈 Yield Prediction:</span>
+                            <span class="font-medium text-green-600">${farm.yieldPrediction}</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-2 gap-3 pt-4">
+                        <button class="futuristic-btn text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                            📊 View Analytics
+                        </button>
+                        <button class="futuristic-btn text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                            📞 Contact Farmer
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('farmDetails').innerHTML = detailsHTML;
+        }
+
+        // Update dashboard statistics
+        function updateDashboardStats() {
+            const totalTemp = farmData.reduce((sum, farm) => sum + farm.temperature, 0);
+            const avgTemp = (totalTemp / farmData.length).toFixed(1);
+            
+            const totalHumidity = farmData.reduce((sum, farm) => sum + farm.humidity, 0);
+            const avgHumidity = Math.round(totalHumidity / farmData.length);
+            
+            const healthyFarms = farmData.filter(farm => farm.status === 'healthy').length;
+            const alerts = farmData.filter(farm => farm.pestAlert || farm.status === 'warning' || farm.status === 'critical').length;
+
+            document.getElementById('avgTemp').textContent = `${avgTemp}°C`;
+            document.getElementById('avgHumidity').textContent = `${avgHumidity}%`;
+            document.getElementById('healthyFarms').textContent = `${healthyFarms}/${farmData.length}`;
+            document.getElementById('alerts').textContent = alerts;
+        }
+
+        // Simulate real-time updates
+        function simulateRealTimeUpdates() {
+            setInterval(() => {
+                farmData.forEach(farm => {
+                    // Simulate small changes in data
+                    farm.temperature += (Math.random() - 0.5) * 0.5;
+                    farm.humidity += Math.round((Math.random() - 0.5) * 2);
+                    farm.soilMoisture += Math.round((Math.random() - 0.5) * 1);
+                    farm.cropHealth += Math.round((Math.random() - 0.5) * 0.5);
+                    
+                    // Keep values in realistic ranges
+                    farm.temperature = Math.max(15, Math.min(40, farm.temperature));
+                    farm.humidity = Math.max(30, Math.min(95, farm.humidity));
+                    farm.soilMoisture = Math.max(40, Math.min(100, farm.soilMoisture));
+                    farm.cropHealth = Math.max(70, Math.min(100, farm.cropHealth));
+                });
+                
+                updateDashboardStats();
+            }, 5000); // Update every 5 seconds
+        }
+
+        // Go back to main page
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // 🚀 FAST LOADING SYSTEM - Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Starting Fast Loading System...');
+            
+            // Dynamic loading messages
+            const loadingMessages = [
+                "🛰️ Connecting to satellite network...",
+                "🔍 Analyzing soil composition...",
+                "🤖 Calibrating AI sensors...",
+                "⚡ Establishing quantum link...",
+                "🌐 Initializing holographic display...",
+                "✅ System ready!"
+            ];
+            
+            const loadingStatus = document.getElementById('loadingStatus');
+            let messageIndex = 0;
+            
+            const messageInterval = setInterval(() => {
+                if (messageIndex < loadingMessages.length) {
+                    loadingStatus.textContent = loadingMessages[messageIndex];
+                    messageIndex++;
+                } else {
+                    clearInterval(messageInterval);
+                }
+            }, 500);
+            
+            // Hide loading screen after 3 seconds maximum
+            setTimeout(() => {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                        isSystemReady = true;
+                        console.log('✅ System Ready!');
+                        clearInterval(messageInterval);
+                    }, 500);
+                }
+            }, 3000);
+            
+            // Initialize map immediately (fallback if Google Maps fails)
+            if (typeof google !== 'undefined' && google.maps) {
+                initMap();
+            } else {
+                document.getElementById('map').innerHTML = `
+                    <div class="flex items-center justify-center h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg border border-cyan-400/30">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4 animate-pulse">🛰️</div>
+                            <p class="text-cyan-300 neon-text">Satellite Network Active</p>
+                            <p class="text-gray-400 text-sm mt-2">18 Farms Connected</p>
+                            <div class="mt-4 grid grid-cols-3 gap-2">
+                                <div class="w-3 h-3 bg-green-400 rounded-full pulse-dot"></div>
+                                <div class="w-3 h-3 bg-blue-400 rounded-full pulse-dot" style="animation-delay: 0.5s"></div>
+                                <div class="w-3 h-3 bg-purple-400 rounded-full pulse-dot" style="animation-delay: 1s"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Start all systems immediately
+            updateDashboardStats();
+            simulateRealTimeUpdates();
+            initializeParticleSystem();
+            initializePomegranateAnimation();
+            initializeRoboticsEffects();
+        });
+        
+        // 🌌 Initialize Particle System
+        function initializeParticleSystem() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            const particleCount = 100;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random positioning and timing
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                
+                // Random colors for variety
+                const colors = ['#00d4ff', '#ff006e', '#8338ec', '#3a86ff', '#06ffa5', '#ff9500'];
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.boxShadow = `0 0 10px ${colors[Math.floor(Math.random() * colors.length)]}`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 🍎 Initialize Pomegranate Animation
+        function initializePomegranateAnimation() {
+            const pomegranate = document.getElementById('pomegranate');
+            const pieces = document.getElementById('pomegranatepieces');
+            
+            if (!pomegranate || !pieces) return;
+            
+            // Auto-trigger cutting animation every 8 seconds
+            setInterval(() => {
+                triggerPomegranateCut();
+            }, 8000);
+
+            // Add click interaction
+            pomegranate.addEventListener('click', () => {
+                triggerPomegranateCut();
+            });
+        }
+        
+        // ✂️ Trigger Pomegranate Cutting
+        function triggerPomegranateCut() {
+            const pieces = document.getElementById('pomegranatepieces');
+            const pomegranate = document.getElementById('pomegranate');
+            
+            if (!pieces || !pomegranate) return;
+            
+            // Hide main pomegranate and show pieces
+            pomegranate.style.opacity = '0';
+            pomegranate.style.transform = 'scale(0.8)';
+            pieces.style.opacity = '1';
+            
+            // Reset after animation
+            setTimeout(() => {
+                pomegranate.style.opacity = '1';
+                pomegranate.style.transform = 'scale(1)';
+                pieces.style.opacity = '0';
+            }, 2500);
+        }
+        
+        // 🤖 Initialize Advanced Robotics Effects
+        function initializeRoboticsEffects() {
+            // Add holographic hover effects to cards
+            const cards = document.querySelectorAll('.data-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px) rotateX(5deg)';
+                    card.style.boxShadow = '0 20px 40px rgba(0, 212, 255, 0.3)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) rotateX(0deg)';
+                    card.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+                });
+            });
+            
+            // Add scanning lines to AI indicator
+            const aiIndicator = document.querySelector('.ai-indicator');
+            if (aiIndicator) {
+                setInterval(() => {
+                    const scanLine = document.createElement('div');
+                    scanLine.style.cssText = `
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 2px;
+                        background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+                        animation: scanLine 2s ease-out forwards;
+                    `;
+                    aiIndicator.appendChild(scanLine);
+                    
+                    setTimeout(() => {
+                        scanLine.remove();
+                    }, 2000);
+                }, 3000);
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974bb1af703c8a26',t:'MTc1NjEzMTI0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
